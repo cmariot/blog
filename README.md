@@ -89,9 +89,9 @@ Exemple :
 ```
 POSTGRES_HOST=database
 POSTGRES_PORT=5432
-POSTGRES_USER=cmariot
-POSTGRES_PASSWORD=puiyI1b1CUeuy2T_hdEso9Hggwkj6PD_vZ9aFGCJiS6JL1Q
-POSTGRES_DB=blog_db
+POSTGRES_PASSWORD=your_password
+POSTGRES_DB=your_db_name
+SECRET_KEY=change_me
 ```
 
 **Astuce :**
