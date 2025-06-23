@@ -1,0 +1,88 @@
+services:
+
+  database:
+    container_name: database
+    image: postgres:17-alpine
+    env_file:
+      - path: ./.env
+        required: true
+      - path: ./database/.env
+        required: true
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "${POSTGRES_USER}", "-d", "${POSTGRES_DB}"]
+      interval: 10s
+      retries: 10
+      timeout: 5s
+    volumes:
+      - ./database/data:/var/lib/postgresql/data/
+    networks:
+      custom_network:
+        aliases:
+          - ${PROJECT_NAME}_db.local
+    restart: unless-stopped
+
+  backend:
+    container_name: backend
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    env_file:
+      - path: ./.env
+        required: true
+      - path: ./backend/.env
+        required: true
+    volumes:
+      - ./backend/app:/app/backend
+      - ./backend/app/static:/app/backend/static
+    depends_on:
+      database:
+        condition: service_healthy
+    networks:
+      custom_network:
+        aliases:
+          - ${PROJECT_NAME}_django.local
+    restart: unless-stopped
+
+  frontend:
+    container_name: frontend
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    volumes:
+      - ./frontend/app:/app/frontend
+      - node_modules:/app/frontend/node_modules
+    depends_on:
+      - backend
+    networks:
+      custom_network:
+        aliases:
+          - ${PROJECT_NAME}_react.local
+    restart: unless-stopped
+
+  reverse_proxy:
+    container_name: nginx
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    depends_on:
+      - backend
+      - frontend
+    ports:
+      - "8080:80"
+    volumes:
+      - ./nginx/conf.d:/etc/nginx/conf.d:ro
+      - ./backend/app/static:/staticfiles
+    networks:
+      custom_network:
+        aliases:
+          - ${PROJECT_NAME}_react.local
+    restart: unless-stopped
+
+networks:
+  custom_network:
+    name: ${PROJECT_NAME}
+    driver: bridge
+
+volumes:
+  node_modules:
+    driver: local

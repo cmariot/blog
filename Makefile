@@ -1,0 +1,38 @@
+up:
+	docker compose up --build
+
+down:
+	docker compose down
+
+build:
+	docker compose build
+
+restart:
+	docker compose down
+	docker compose up -d
+
+logs:
+	docker compose logs -f
+
+ps:
+	docker compose ps
+
+shell-backend:
+	docker compose exec backend sh
+
+shell-frontend:
+	docker compose exec frontend sh
+
+shell-db:
+	docker compose exec database sh
+
+clean:
+	docker compose down -v --remove-orphans
+
+fclean: clean
+	docker system prune -af
+	docker volume prune -f
+
+re: fclean build up
+
+.PHONY: up down build restart logs ps shell-backend shell-frontend shell-db clean fclean re
