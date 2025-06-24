@@ -1,7 +1,7 @@
 # /backend/Dockerfile
 
 # Use a lightweight Python image
-FROM python:3.12-alpine
+FROM python:3.13-bullseye
 
 # Set environment variables to ensure Python outputs are directed to the console and no bytecode files are generated
 ENV PYTHONUNBUFFERED=1
@@ -14,11 +14,23 @@ WORKDIR /app/backend
 COPY requirements.txt .
 
 # Install system dependencies required for GeoDjango, including compilation dependencies and geospatial libraries
-RUN apk update && \
-    apk add --no-cache --virtual .build-deps gcc musl-dev postgresql-dev python3-dev && \
-    apk add --no-cache geos gdal proj binutils postgresql-client && \
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
+        gcc \
+        musl-dev \
+        libpq-dev \
+        python3-dev \
+        libgeos-dev \
+        gdal-bin \
+        libgdal-dev \
+        proj-bin \
+        binutils \
+        postgresql-client && \
     pip install --no-cache-dir -r requirements.txt && \
-    apk del .build-deps
+    apt-get remove --purge -y gcc musl-dev python3-dev && \
+    apt-get autoremove -y && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
 
 # Copy the entire project into the container
 COPY app .

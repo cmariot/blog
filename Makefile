@@ -32,6 +32,7 @@ clean:
 fclean: clean
 	docker system prune -af
 	docker volume prune -f
+	rm -rf ./database/data
 
 re: fclean build up
 

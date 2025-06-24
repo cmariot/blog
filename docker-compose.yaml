@@ -75,7 +75,23 @@ services:
     networks:
       custom_network:
         aliases:
-          - ${PROJECT_NAME}_react.local
+          - ${PROJECT_NAME}_nginx.local
+    restart: unless-stopped
+
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin
+    ports:
+      - "5050:5050"
+    env_file:
+      .env
+    depends_on:
+      database:
+        condition: service_healthy
+    networks:
+      custom_network:
+        aliases:
+          - ${PROJECT_NAME}_pgadmin.local
     restart: unless-stopped
 
 networks:
