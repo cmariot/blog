@@ -7,13 +7,23 @@ import { Menu, Github, Linkedin, X, Moon, Sun } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useAuth } from '@/context/AuthContext';
+import { useTheme } from "next-themes"
+
+const getSystemTheme = () =>
+  window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
 
 export default function NavBar() {
     const [isDark, setIsDark] = useState(true);
     const { username, logout } = useAuth();
+    const { setTheme } = useTheme()
 
     const toggleTheme = () => {
         setIsDark(!isDark);
+        if (isDark) {
+            setTheme("dark")
+        } else {
+            setTheme("light")
+        }
         document.documentElement.classList.toggle('light');
     };
 
