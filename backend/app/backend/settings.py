@@ -83,9 +83,9 @@ CORS_ALLOWED_ORIGINS = [       # Allows access from the frontend
 
 # Rest Framework config
 REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework_simplejwt.authentication.JWTAuthentication',
-    ),
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'accounts.authentication.CookieJWTAuthentication',
+    ],
 }
 
 # JWT config (durée de vie, refresh, etc.)

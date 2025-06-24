@@ -6,9 +6,11 @@ import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { Menu, Github, Linkedin, X, Moon, Sun } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { useAuth } from '@/context/AuthContext';
 
 export default function NavBar() {
     const [isDark, setIsDark] = useState(true);
+    const { username, logout } = useAuth();
 
     const toggleTheme = () => {
         setIsDark(!isDark);
@@ -17,13 +19,14 @@ export default function NavBar() {
 
     const navItems = [
         { href: '/', label: 'Accueil' },
-        { href: '/about', label: 'À propos' },
-        { href: '/progress', label: 'Journal' },
-        { href: '/roadmap', label: 'Roadmap' },
-        { href: '/blog', label: 'Blog' },
-        { href: '/projects', label: 'Projets' },
-        { href: '/contact', label: 'Contact' },
+        { href: '/register', label: 'Register' },
         { href: '/login', label: 'Connexion' },
+        // { href: '/about', label: 'À propos' },
+        // { href: '/progress', label: 'Journal' },
+        // { href: '/roadmap', label: 'Roadmap' },
+        // { href: '/blog', label: 'Blog' },
+        // { href: '/projects', label: 'Projets' },
+        // { href: '/contact', label: 'Contact' },
     ];
 
     const pathname = usePathname();
@@ -48,6 +51,11 @@ export default function NavBar() {
                             {item.label}
                         </Link>
                     ))}
+                    {username && (
+                        <Button variant="outline" onClick={logout}>
+                            Logout
+                        </Button>
+                    )}
                 </nav>
 
                 <div className="flex items-center space-x-4">

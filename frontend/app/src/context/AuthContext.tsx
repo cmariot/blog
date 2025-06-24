@@ -1,50 +1,102 @@
 'use client';
 
-import { createContext, useContext, useState } from 'react';
+import { createContext, useContext, useEffect, useState } from 'react';
 
 type AuthContextType = {
-    user: string | null;
-    accessToken: string | null;
-    login: (email: string, password: string) => Promise<void>;
+    username: string | null;
+    login: (username: string, password: string) => Promise<void>;
+    register: (username: string, email: string, password: string) => Promise<void>;
     logout: () => void;
 };
 
 const AuthContext = createContext<AuthContextType | null>(null);
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
-    const [user, setUser] = useState<string | null>(null);
-    const [accessToken, setAccessToken] = useState<string | null>(null);
+    const [username, setUsername] = useState<string | null>(null);
 
-    const login = async (email: string, password: string) => {
+    // Récupère l'utilisateur au chargement
+    useEffect(() => {
+        const fetchUser = async () => {
+            try {
+                const res = await fetch('http://localhost:8080/api/account/me/', {
+                    credentials: 'include',
+                });
+                if (res.ok) {
+                    const data = await res.json();
+                    setUsername(data.username);
+                } else if (res.status === 401) {
+                    // Tente un refresh
+                    const refreshRes = await fetch('http://localhost:8080/api/account/token/refresh/', {
+                        method: 'POST',
+                        credentials: 'include',
+                    });
+                    if (refreshRes.ok) {
+                        // Retente /me
+                        const retry = await fetch('http://localhost:8080/api/account/me/', {
+                            credentials: 'include',
+                        });
+                        if (retry.ok) {
+                            const data = await retry.json();
+                            setUsername(data.username);
+                        } else {
+                            setUsername(null);
+                        }
+                    } else {
+                        setUsername(null);
+                    }
+                } else {
+                    setUsername(null);
+                }
+            } catch {
+                setUsername(null);
+            }
+        };
+        fetchUser();
+    }, []);
 
-        console.log("Login atempt")
+    const login = async (username: string, password: string) => {
 
-        const res = await fetch('http://localhost:8080/api/token/', {
+        const res = await fetch('http://localhost:8080/api/account/token/', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ email, password }),
+            body: JSON.stringify({ username, password }),
+            credentials: 'include', // important !
         });
-
-        console.log(res)
 
         if (res.status != 200) {
             throw new Error('Login failed');
         }
 
-        const data = await res.json();
-        setAccessToken(data.access);
-        localStorage.setItem('refresh', data.refresh);
-        setUser(email);
+        setUsername(username);
     };
 
-    const logout = () => {
-        setAccessToken(null);
-        setUser(null);
-        localStorage.removeItem('refresh');
+
+    const register = async (username: string, email: string, password: string) => {
+
+        const res = await fetch('http://localhost:8080/api/account/register', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ username, email, password }),
+        });
+
+        if (res.status != 201) {
+            throw new Error('Login failed');
+        }
+
+        await login(username, password);
+
+    }
+
+    const logout = async () => {
+        await fetch('http://localhost:8080/api/account/logout/', {
+            method: 'POST',
+            credentials: 'include',
+        });
+        setUsername(null);
     };
 
     return (
-        <AuthContext.Provider value={{ user, accessToken, login, logout }}>
+        <AuthContext.Provider value={{ username, login, register, logout }}>
             {children}
         </AuthContext.Provider>
     );
