@@ -1,9 +1,7 @@
-'use client';
-
-export default function HomePage() {
+export default function ProjectsPage() {
     return (
         <div className="flex justify-center items-center">
-            Home
+            Projects
         </div>
     );
 }

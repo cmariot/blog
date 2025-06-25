@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { AuthProvider } from '@/context/AuthContext';
 import NavBar from "@/components/Navbar";
-import { ThemeProvider } from "@/components/Theme";
+// import { ThemeProvider } from "@/components/Theme";
+import Footer from "@/components/Footer";
 
 
 export const metadata: Metadata = {
@@ -17,23 +17,22 @@ export default function RootLayout({
     children: React.ReactNode;
 }>) {
     return (
-        <html lang="en" className="h-full">
-            <body className='antialiased h-full'>
-                <ThemeProvider
+        <html lang="en">
+            <body className='antialiased h-full bg-background'>
+                {/* <ThemeProvider
                     attribute="class"
                     defaultTheme="system"
                     enableSystem
                     disableTransitionOnChange
-                >
+                > */}
                     <AuthProvider>
                         <NavBar />
-                        <main className="w-full h-full">
+                        <main className="flex-1 container mx-auto px-4">
                             {children}
                         </main>
-                        <div>footer</div>
-                        {/* <Footer /> */}
+                        <Footer />
                     </AuthProvider>
-                </ThemeProvider>
+                {/* </ThemeProvider> */}
             </body>
         </html>
     );

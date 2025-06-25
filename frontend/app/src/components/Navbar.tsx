@@ -1,52 +1,36 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { Button } from '@/components/ui/button';
-import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
-import { Menu, Github, Linkedin, X, Moon, Sun } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { Button } from '@/components/ui/button';
+import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
+import { Menu } from 'lucide-react';
 import { useAuth } from '@/context/AuthContext';
-import { useTheme } from "next-themes"
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from './ui/dropdown-menu';
+import React, { useState } from 'react';
 
-const getSystemTheme = () =>
-  window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-
-export default function NavBar() {
-    const [isDark, setIsDark] = useState(true);
+const Header = () => {
+    const pathname = usePathname();
     const { username, logout } = useAuth();
-    const { setTheme } = useTheme()
-
-    const toggleTheme = () => {
-        setIsDark(!isDark);
-        if (isDark) {
-            setTheme("dark")
-        } else {
-            setTheme("light")
-        }
-        document.documentElement.classList.toggle('light');
-    };
+    const [open, setOpen] = useState(false);
 
     const navItems = [
-        { href: '/', label: 'Accueil' },
-        { href: '/register', label: 'Register' },
-        { href: '/login', label: 'Connexion' },
-        // { href: '/about', label: 'À propos' },
-        // { href: '/progress', label: 'Journal' },
-        // { href: '/roadmap', label: 'Roadmap' },
-        // { href: '/blog', label: 'Blog' },
-        // { href: '/projects', label: 'Projets' },
-        // { href: '/contact', label: 'Contact' },
+        { href: '/', label: 'Home' },
+        { href: '/about', label: 'About' },
+        { href: '/progress', label: 'Progress' },
+        { href: '/roadmap', label: 'Roadmap' },
+        { href: '/blog', label: 'Blog' },
+        { href: '/projects', label: 'Projets' },
+        { href: '/contact', label: 'Contact' },
     ];
 
-    const pathname = usePathname();
     const isActive = (path: string) => pathname === path;
 
     return (
-        <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+        <header className="sticky top-0 z-50 w-full border-b bg-background backdrop-blur supports-[backdrop-filter]:bg-background">
             <div className="container flex h-16 items-center justify-between">
-                <Link href="/" className='p-4'>
-                    <span className="font-mono font-semibold text-lg">cmariot</span>
+                <Link href="/" className="flex items-center space-x-2">
+                    <span className="font-mono font-semibold text-lg p-2">cmariot</span>
                 </Link>
 
                 {/* Desktop Navigation */}
@@ -61,50 +45,48 @@ export default function NavBar() {
                             {item.label}
                         </Link>
                     ))}
-                    {username && (
-                        <Button variant="outline" onClick={logout}>
-                            Logout
-                        </Button>
-                    )}
                 </nav>
-
                 <div className="flex items-center space-x-4">
-                    {/* Social Links */}
-                    <div className="hidden md:flex items-center space-x-2">
-                        <Button variant="ghost" size="icon" asChild>
-                            <a href="https://github.com/cmariot" target="_blank" rel="noopener noreferrer">
-                                <Github className="h-4 w-4" />
-                            </a>
-                        </Button>
-                        {/* <Button variant="ghost" size="icon" asChild>
-                            <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer">
-                                <Linkedin className="h-4 w-4" />
-                            </a>
-                        </Button>
-                        <Button variant="ghost" size="icon" asChild>
-                            <a href="https://twitter.com" target="_blank" rel="noopener noreferrer">
-                                <X className="h-4 w-4" />
-                            </a>
-                        </Button> */}
+                    <div>
+                        {!username ? (
+                            <div className="flex gap-2">
+                                <Button asChild variant="outline">
+                                    <Link href="/login">Login</Link>
+                                </Button>
+                                <Button asChild>
+                                    <Link href="/register">Register</Link>
+                                </Button>
+                            </div>
+                        ) : (
+                            <DropdownMenu>
+                                <DropdownMenuTrigger asChild>
+                                    <Button variant="ghost">{username}</Button>
+                                </DropdownMenuTrigger>
+                                <DropdownMenuContent align="end">
+                                    <DropdownMenuItem asChild>
+                                        <Link href="/profile">Profile</Link>
+                                    </DropdownMenuItem>
+                                    <DropdownMenuItem asChild>
+                                        <Link href="/settings">Settings</Link>
+                                    </DropdownMenuItem>
+                                    <DropdownMenuItem asChild>
+                                        <button onClick={logout} className="w-full text-left">
+                                            Logout
+                                        </button>
+                                    </DropdownMenuItem>
+                                </DropdownMenuContent>
+                            </DropdownMenu>
+                        )}
                     </div>
 
-                    {/* Theme Toggle */}
-                    <Button variant="ghost" size="icon" onClick={toggleTheme}>
-                        {isDark ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
-                    </Button>
-
                     {/* Mobile Menu */}
-                    <Sheet>
+                    <Sheet open={open} onOpenChange={setOpen}>
                         <SheetTrigger asChild className="md:hidden">
                             <Button variant="ghost" size="icon">
                                 <Menu className="h-4 w-4" />
                             </Button>
                         </SheetTrigger>
-                        <SheetContent
-                            side="right"
-                            className="w-[300px] sm:w-[400px]"
-                            title="Menu"
-                        >
+                        <SheetContent title="" side="right" className="w-[300px] sm:w-[400px]">
                             <nav className="flex flex-col space-y-4 mt-8">
                                 {navItems.map((item) => (
                                     <Link
@@ -112,27 +94,11 @@ export default function NavBar() {
                                         href={item.href}
                                         className={`block px-2 py-1 text-lg transition-colors hover:text-primary ${isActive(item.href) ? 'text-primary' : 'text-muted-foreground'
                                             }`}
+                                        onClick={() => setOpen(false)}
                                     >
                                         {item.label}
                                     </Link>
                                 ))}
-                                <div className="flex items-center space-x-2 pt-4">
-                                    <Button variant="ghost" size="icon" asChild>
-                                        <a href="https://github.com" target="_blank" rel="noopener noreferrer">
-                                            <Github className="h-4 w-4" />
-                                        </a>
-                                    </Button>
-                                    <Button variant="ghost" size="icon" asChild>
-                                        <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer">
-                                            <Linkedin className="h-4 w-4" />
-                                        </a>
-                                    </Button>
-                                    <Button variant="ghost" size="icon" asChild>
-                                        <a href="https://twitter.com" target="_blank" rel="noopener noreferrer">
-                                            <X className="h-4 w-4" />
-                                        </a>
-                                    </Button>
-                                </div>
                             </nav>
                         </SheetContent>
                     </Sheet>
@@ -142,3 +108,4 @@ export default function NavBar() {
     );
 };
 
+export default Header;

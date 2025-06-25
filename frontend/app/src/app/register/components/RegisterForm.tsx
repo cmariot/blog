@@ -4,18 +4,21 @@
 
 import { useState } from 'react';
 import { useAuth } from '@/context/AuthContext';
+import { useRouter } from 'next/navigation';
+import { Button } from '@/components/ui/button';
 
 export default function RegisterForm() {
     const [username, setUsername] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const { register } = useAuth();
+    const router = useRouter();
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         try {
             await register(username, email, password);
-            alert('Register in');
+            router.push('/');
         } catch (err) {
             alert('Register failed');
         }
@@ -23,7 +26,7 @@ export default function RegisterForm() {
 
     return (
         <form onSubmit={handleSubmit} className="flex flex-col gap-2 w-64">
-            <h2>Register</h2>
+            <h1>Register</h1>
             <input
                 placeholder="Username"
                 value={username}
@@ -43,9 +46,9 @@ export default function RegisterForm() {
                 onChange={e => setPassword(e.target.value)}
                 className="border px-2 py-1 rounded"
             />
-            <button type="submit" className="bg-blue-500 text-white py-1 rounded">
+            <Button type='submit'>
                 Register
-            </button>
+            </Button>
         </form>
     );
 }

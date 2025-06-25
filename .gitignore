@@ -1,4 +1,9 @@
 /.env
+
 /backend/.env
-/database/.env
+/backend/venv
+
 /database
+/database/.env
+
+/frontend/app/node_modules

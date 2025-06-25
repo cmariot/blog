@@ -50,7 +50,7 @@ services:
       dockerfile: Dockerfile
     volumes:
       - ./frontend/app:/app/frontend
-      - node_modules:/app/frontend/node_modules
+      - /app/frontend/node_modules
     depends_on:
       - backend
     networks:
@@ -98,7 +98,3 @@ networks:
   custom_network:
     name: ${PROJECT_NAME}
     driver: bridge
-
-volumes:
-  node_modules:
-    driver: local

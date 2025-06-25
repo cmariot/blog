@@ -7,12 +7,13 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated
 from django.http import JsonResponse
-from rest_framework_simplejwt.exceptions import TokenError, InvalidToken
-from rest_framework import status
+from rest_framework_simplejwt.exceptions import TokenError
+from rest_framework.permissions import AllowAny
 
 
 # Create a new user
 class RegisterView(generics.CreateAPIView):
+    permission_classes = [AllowAny]
     queryset = get_user_model().objects.all()
     serializer_class = RegisterSerializer
 
@@ -79,6 +80,7 @@ class MeView(APIView):
 
 
 class LogoutView(APIView):
+    permission_classes = [IsAuthenticated]
     def post(self, request):
         response = Response({'detail': 'Logged out.'})
         response.delete_cookie('access', samesite='None')

@@ -1,9 +1,7 @@
-'use client';
-
-export default function HomePage() {
+export default function RoadmapPage() {
     return (
         <div className="flex justify-center items-center">
-            Home
+            Roadmap
         </div>
     );
 }
