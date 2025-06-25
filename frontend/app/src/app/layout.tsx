@@ -5,15 +5,6 @@ import { AuthProvider } from '@/context/AuthContext';
 import NavBar from "@/components/Navbar";
 import { ThemeProvider } from "@/components/Theme";
 
-const geistSans = Geist({
-    variable: "--font-geist-sans",
-    subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-    variable: "--font-geist-mono",
-    subsets: ["latin"],
-});
 
 export const metadata: Metadata = {
     title: "cmariot's blog",
@@ -27,7 +18,7 @@ export default function RootLayout({
 }>) {
     return (
         <html lang="en" className="h-full">
-            <body className={`${geistSans.variable} ${geistMono.variable} antialiased h-full`}>
+            <body className='antialiased h-full'>
                 <ThemeProvider
                     attribute="class"
                     defaultTheme="system"
@@ -35,7 +26,6 @@ export default function RootLayout({
                     disableTransitionOnChange
                 >
                     <AuthProvider>
-
                         <NavBar />
                         <main className="w-full h-full">
                             {children}
