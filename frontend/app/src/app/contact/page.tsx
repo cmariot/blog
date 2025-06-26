@@ -45,7 +45,7 @@ export default function ContactPage() {
         },
         {
             name: "Email",
-            url: "mailto:contact@example.com",
+            url: "mailto:contact@charles-mariot.fr",
             icon: Mail,
             description: "contact@charles-mariot.fr"
         }
@@ -125,14 +125,14 @@ export default function ContactPage() {
                                 <MapPin className="h-4 w-4" />
                                 <span>France • Disponible pour des projets</span>
                             </div>
-                            <div className="space-y-2">
-                                <Badge variant="secondary" className="gap-2">
+                            <div className="space-y-2 flex gap-2 flex-wrap align-center justify-start ">
+                                <Badge variant="secondary" className="gap-2 h-max">
                                     🚀 Ouvert aux collaborations
                                 </Badge>
-                                <Badge variant="secondary" className="gap-2">
+                                <Badge variant="secondary" className="gap-2 h-max">
                                     💡 Discussions techniques
                                 </Badge>
-                                <Badge variant="secondary" className="gap-2">
+                                <Badge variant="secondary" className="gap-2 h-max">
                                     🤝 Mentoring mutuel
                                 </Badge>
                             </div>
@@ -174,7 +174,7 @@ export default function ContactPage() {
 
                     {/* Response Time */}
                     <Card>
-                        <CardContent className="pt-6">
+                        <CardContent className="">
                             <div className="text-center space-y-2">
                                 <div className="text-sm text-muted-foreground">
                                     Temps de réponse habituel
@@ -192,9 +192,4 @@ export default function ContactPage() {
             </div>
         </div>
     );
-    // return (
-    //     <div className="flex justify-center items-center">
-    //         Contact
-    //     </div>
-    // );
 }

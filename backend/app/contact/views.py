@@ -1,8 +1,8 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-# from django.core.mail import send_mail
-# from django.conf import settings
+from django.core.mail import send_mail
+from django.conf import settings
 from rest_framework.permissions import AllowAny
 
 
@@ -23,14 +23,14 @@ class ContactView(APIView):
             )
         full_message = f"Message de: {name} <{email}>\n\n{subject}\n{message}"
         try:
-            # send_mail(
-            #     subject,
-            #     full_message,
-            #     settings.DEFAULT_FROM_EMAIL,
-            #     [settings.CONTACT_EMAIL],
-            #     fail_silently=False,
-            # )
-            print(full_message)
+            send_mail(
+                subject,
+                full_message,
+                settings.DEFAULT_FROM_EMAIL,
+                [settings.CONTACT_EMAIL],
+                fail_silently=False,
+            )
+            print("OK")
             return Response(
                 {'success': 'Message sent successfully.'},
                 status=status.HTTP_200_OK

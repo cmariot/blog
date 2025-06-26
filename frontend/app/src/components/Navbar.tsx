@@ -8,6 +8,8 @@ import { Menu } from 'lucide-react';
 import { useAuth } from '@/context/AuthContext';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from './ui/dropdown-menu';
 import React, { useState } from 'react';
+import LanguageSelector from "@/components/LanguageSelector";
+import ThemeToggle from "@/components/ThemeToggle";
 
 const Header = () => {
     const pathname = usePathname();
@@ -17,8 +19,8 @@ const Header = () => {
     const navItems = [
         { href: '/', label: 'Home' },
         { href: '/about', label: 'About' },
-        { href: '/progress', label: 'Progress' },
-        { href: '/roadmap', label: 'Roadmap' },
+        // { href: '/progress', label: 'Progress' },
+        // { href: '/roadmap', label: 'Roadmap' },
         { href: '/blog', label: 'Blog' },
         { href: '/projects', label: 'Projets' },
         { href: '/contact', label: 'Contact' },
@@ -47,38 +49,11 @@ const Header = () => {
                     ))}
                 </nav>
                 <div className="flex items-center space-x-4">
-                    <div>
-                        {!username ? (
-                            <div className="flex gap-2">
-                                <Button asChild variant="outline">
-                                    <Link href="/login">Login</Link>
-                                </Button>
-                                <Button asChild>
-                                    <Link href="/register">Register</Link>
-                                </Button>
-                            </div>
-                        ) : (
-                            <DropdownMenu>
-                                <DropdownMenuTrigger asChild>
-                                    <Button variant="ghost">{username}</Button>
-                                </DropdownMenuTrigger>
-                                <DropdownMenuContent align="end">
-                                    <DropdownMenuItem asChild>
-                                        <Link href="/profile">Profile</Link>
-                                    </DropdownMenuItem>
-                                    <DropdownMenuItem asChild>
-                                        <Link href="/settings">Settings</Link>
-                                    </DropdownMenuItem>
-                                    <DropdownMenuItem asChild>
-                                        <button onClick={logout} className="w-full text-left">
-                                            Logout
-                                        </button>
-                                    </DropdownMenuItem>
-                                </DropdownMenuContent>
-                            </DropdownMenu>
-                        )}
+                    {/* Language selector & Theme toggle */}
+                    <div className="flex gap-2 items-center">
+                        {/* <LanguageSelector /> */}
+                        <ThemeToggle />
                     </div>
-
                     {/* Mobile Menu */}
                     <Sheet open={open} onOpenChange={setOpen}>
                         <SheetTrigger asChild className="md:hidden">

@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { AuthProvider } from '@/context/AuthContext';
 import NavBar from "@/components/Navbar";
-// import { ThemeProvider } from "@/components/Theme";
+import { ThemeProvider } from "@/components/Theme";
 import Footer from "@/components/Footer";
 
 
@@ -17,14 +17,14 @@ export default function RootLayout({
     children: React.ReactNode;
 }>) {
     return (
-        <html lang="en">
+        <html lang="en" suppressHydrationWarning>
             <body className='antialiased h-full bg-background'>
-                {/* <ThemeProvider
+                <ThemeProvider
                     attribute="class"
                     defaultTheme="system"
                     enableSystem
                     disableTransitionOnChange
-                > */}
+                >
                     <AuthProvider>
                         <NavBar />
                         <main className="flex-1 container mx-auto px-4">
@@ -32,7 +32,7 @@ export default function RootLayout({
                         </main>
                         <Footer />
                     </AuthProvider>
-                {/* </ThemeProvider> */}
+                </ThemeProvider>
             </body>
         </html>
     );
