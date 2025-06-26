@@ -3,23 +3,23 @@ from .models import Article
 
 
 class ArticleSerializer(serializers.ModelSerializer):
-    author_username = serializers.CharField(
-        source='author.username',
-        read_only=True
-    )
+    tags = serializers.SerializerMethodField()
 
     class Meta:
         model = Article
         fields = [
-            'id',
-            'slug',
             'title',
+            'slug',
+            'excerpt',
             'content',
+            'date',
+            'readTime',
             'tags',
-            'duration',
-            'author_username',
-            'published',
-            'created_at',
-            'updated_at',
-            'views'
+            'views',
+            'featured',
         ]
+        read_only_fields = fields
+
+    def get_tags(self, obj):
+        # Retourne une liste de tags (split sur ',')
+        return [t.strip() for t in obj.tags.split(',') if t.strip()]

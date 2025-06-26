@@ -3,9 +3,15 @@
 import { useTheme } from "next-themes";
 import { Sun, Moon } from "lucide-react";
 import { Button } from "./ui/button";
+import { useState, useEffect } from "react";
 
 export default function ThemeToggle() {
     const { theme, setTheme, resolvedTheme } = useTheme();
+    const [mounted, setMounted] = useState(false);
+    useEffect(() => {
+        setMounted(true);
+    }, []);
+    if (!mounted) return null;
     // Détermine si le thème courant est dark dynamiquement
     const isDark = (theme === 'dark') || (theme === 'system' && resolvedTheme === 'dark');
 

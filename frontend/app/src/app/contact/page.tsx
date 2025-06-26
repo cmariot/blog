@@ -180,7 +180,7 @@ export default function ContactPage() {
                                     Temps de réponse habituel
                                 </div>
                                 <div className="text-2xl font-bold text-primary">
-                                    24-48h
+                                    24 - 48h
                                 </div>
                                 <div className="text-xs text-muted-foreground">
                                     Sauf week-ends et vacances 🏖️

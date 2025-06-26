@@ -5,15 +5,12 @@ import { usePathname } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { Menu } from 'lucide-react';
-import { useAuth } from '@/context/AuthContext';
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from './ui/dropdown-menu';
 import React, { useState } from 'react';
 import LanguageSelector from "@/components/LanguageSelector";
 import ThemeToggle from "@/components/ThemeToggle";
 
 const Header = () => {
     const pathname = usePathname();
-    const { username, logout } = useAuth();
     const [open, setOpen] = useState(false);
 
     const navItems = [
@@ -26,11 +23,17 @@ const Header = () => {
         { href: '/contact', label: 'Contact' },
     ];
 
-    const isActive = (path: string) => pathname === path;
+    const isActive = (path: string) => {
+        if (path === "/") {
+            return pathname === "/";
+        }
+        // Active if pathname starts with path and next char is / or end of string
+        return pathname === path || pathname.startsWith(path + "/");
+    }
 
     return (
         <header className="sticky top-0 z-50 w-full border-b bg-background backdrop-blur supports-[backdrop-filter]:bg-background">
-            <div className="container flex h-16 items-center justify-between">
+            <div className="flex h-16 items-center justify-between">
                 <Link href="/" className="flex items-center space-x-2">
                     <span className="font-mono font-semibold text-lg p-2">cmariot</span>
                 </Link>
@@ -48,12 +51,10 @@ const Header = () => {
                         </Link>
                     ))}
                 </nav>
-                <div className="flex items-center space-x-4">
+                <div className="flex items-center">
                     {/* Language selector & Theme toggle */}
-                    <div className="flex gap-2 items-center">
                         {/* <LanguageSelector /> */}
                         <ThemeToggle />
-                    </div>
                     {/* Mobile Menu */}
                     <Sheet open={open} onOpenChange={setOpen}>
                         <SheetTrigger asChild className="md:hidden">

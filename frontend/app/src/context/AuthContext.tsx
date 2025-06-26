@@ -14,45 +14,45 @@ const AuthContext = createContext<AuthContextType | null>(null);
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     const [username, setUsername] = useState<string | null>(null);
 
-    // Récupère l'utilisateur au chargement
-    useEffect(() => {
-        const fetchUser = async () => {
-            try {
-                const res = await fetch('http://localhost:8080/api/account/me/', {
-                    credentials: 'include',
-                });
-                if (res.ok) {
-                    const data = await res.json();
-                    setUsername(data.username);
-                } else if (res.status === 401) {
-                    // Tente un refresh
-                    const refreshRes = await fetch('http://localhost:8080/api/account/token/refresh/', {
-                        method: 'POST',
-                        credentials: 'include',
-                    });
-                    if (refreshRes.ok) {
-                        // Retente /me
-                        const retry = await fetch('http://localhost:8080/api/account/me/', {
-                            credentials: 'include',
-                        });
-                        if (retry.ok) {
-                            const data = await retry.json();
-                            setUsername(data.username);
-                        } else {
-                            setUsername(null);
-                        }
-                    } else {
-                        setUsername(null);
-                    }
-                } else {
-                    setUsername(null);
-                }
-            } catch {
-                setUsername(null);
-            }
-        };
-        fetchUser();
-    }, []);
+    // // Récupère l'utilisateur au chargement
+    // useEffect(() => {
+    //     const fetchUser = async () => {
+    //         try {
+    //             const res = await fetch('http://localhost:8080/api/account/me/', {
+    //                 credentials: 'include',
+    //             });
+    //             if (res.ok) {
+    //                 const data = await res.json();
+    //                 setUsername(data.username);
+    //             } else if (res.status === 401) {
+    //                 // Tente un refresh
+    //                 const refreshRes = await fetch('http://localhost:8080/api/account/token/refresh/', {
+    //                     method: 'POST',
+    //                     credentials: 'include',
+    //                 });
+    //                 if (refreshRes.ok) {
+    //                     // Retente /me
+    //                     const retry = await fetch('http://localhost:8080/api/account/me/', {
+    //                         credentials: 'include',
+    //                     });
+    //                     if (retry.ok) {
+    //                         const data = await retry.json();
+    //                         setUsername(data.username);
+    //                     } else {
+    //                         setUsername(null);
+    //                     }
+    //                 } else {
+    //                     setUsername(null);
+    //                 }
+    //             } else {
+    //                 setUsername(null);
+    //             }
+    //         } catch {
+    //             setUsername(null);
+    //         }
+    //     };
+    //     fetchUser();
+    // }, []);
 
     const login = async (username: string, password: string) => {
 
