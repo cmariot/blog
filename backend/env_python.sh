@@ -3,11 +3,9 @@
 # You must source this script to activate the virtualenv in your shell.
 # source my_script.sh
 
-
 ENV_NAME=venv
 BLUE='\033[0;34m'
 NC='\033[0m'
-
 
 PYTHON=python3.13
 
@@ -26,11 +24,9 @@ echo "${BLUE}Installing the requirements...${NC}"
 $PYTHON -m pip install --upgrade pip
 $PYTHON -m pip install -r requirements.txt
 
-
 echo
 
 # Show the installed packages.
 echo "${BLUE}Installed packages:${NC}"
 $PYTHON -m pip freeze
 echo
-

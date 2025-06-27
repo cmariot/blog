@@ -43,7 +43,8 @@ class Article(models.Model):
     )
 
     views = models.PositiveIntegerField(
-        default=0
+        default=0,
+        help_text="Nombre de vues de l'article"
     )
 
     featured = models.BooleanField(

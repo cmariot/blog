@@ -2,6 +2,8 @@ from rest_framework import viewsets
 from .models import Article
 from .serializers import ArticleSerializer
 from rest_framework.permissions import AllowAny
+from rest_framework.response import Response
+from django.db import models
 
 
 class ArticleViewSet(viewsets.ReadOnlyModelViewSet):
@@ -15,3 +17,27 @@ class ArticleViewSet(viewsets.ReadOnlyModelViewSet):
     permission_classes = [AllowAny]
 
     lookup_field = 'slug'  # pour utiliser /articles/<slug>/
+
+    def retrieve(self, request, *args, **kwargs):
+        instance = self.get_object()
+        instance.views = models.F('views') + 1
+        instance.save(update_fields=["views"])
+        instance.refresh_from_db(fields=["views"])
+        serializer = self.get_serializer(instance)
+        return Response(serializer.data)
+
+    def list(self, request, *args, **kwargs):
+        limit = request.query_params.get('limit')
+        queryset = self.filter_queryset(self.get_queryset())
+        if limit is not None:
+            try:
+                limit = int(limit)
+                queryset = queryset[:limit]
+            except ValueError:
+                pass  # ignore si limit n'est pas un int
+        page = self.paginate_queryset(queryset)
+        if page is not None:
+            serializer = self.get_serializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data)

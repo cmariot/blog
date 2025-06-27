@@ -53,8 +53,8 @@ const Header = () => {
                 </nav>
                 <div className="flex items-center">
                     {/* Language selector & Theme toggle */}
-                        {/* <LanguageSelector /> */}
-                        <ThemeToggle />
+                    {/* <LanguageSelector /> */}
+                    <ThemeToggle />
                     {/* Mobile Menu */}
                     <Sheet open={open} onOpenChange={setOpen}>
                         <SheetTrigger asChild className="md:hidden">
@@ -62,7 +62,7 @@ const Header = () => {
                                 <Menu className="h-4 w-4" />
                             </Button>
                         </SheetTrigger>
-                        <SheetContent title="" side="right" className="w-[300px] sm:w-[400px]">
+                        <SheetContent title="Menu principal" side="right" className="w-[300px] sm:w-[400px]">
                             <nav className="flex flex-col space-y-4 mt-8">
                                 {navItems.map((item) => (
                                     <Link
