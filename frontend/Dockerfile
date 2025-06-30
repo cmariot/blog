@@ -13,6 +13,9 @@ RUN npm install
 # Copy all source code to the working directory
 COPY app .
 
+# Disable telemetry
+RUN npx next telemetry disable
+
 # Build the application
 RUN npm run build
 
