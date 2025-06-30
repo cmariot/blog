@@ -13,14 +13,14 @@ RUN npm install
 # Copy all source code to the working directory
 COPY app .
 
-# Build the application
-RUN npm run build
+# Build the application only if ENV=production
+ARG ENV=development
+ENV ENV=${ENV}
+
+RUN if [ "$ENV" = "production" ]; then npm run build; fi
 
 # Next.js listens on port 3000 by default
 EXPOSE 3000
 
-# Uncomment the line below to run in development mode with live reloading
-CMD ["npm", "run", "dev"]
-
-# Uncomment the line below to run in production mode
-# CMD ["npm", "start"]
+# CMD dynamique selon l'environnement
+CMD if [ "$ENV" = "production" ]; then npm run start; else npm run dev; fi
