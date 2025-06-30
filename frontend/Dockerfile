@@ -25,4 +25,5 @@ ENV ENV=${ENV}
 EXPOSE 3000
 
 # CMD dynamique selon l'environnement
+# CMD ["tail", "-f"]
 CMD if [ "$ENV" = "production" ]; then npm run start; else npm run dev; fi
