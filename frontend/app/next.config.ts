@@ -5,6 +5,4 @@ const nextConfig: NextConfig = {
   /* config options here */
 };
 
-const isProd = process.env.ENV === 'production';
-
 export default nextConfig;
