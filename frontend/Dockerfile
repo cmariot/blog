@@ -13,11 +13,10 @@ RUN npm install
 # Copy all source code to the working directory
 COPY app .
 
-# Build the application only if ENV=production
-ARG ENV=development
-ENV ENV=${ENV}
+# Build the application
+RUN npm run build
 
-RUN if [ "$ENV" = "production" ]; then npm run build; fi
+ENV ENV=${ENV}
 
 # Next.js listens on port 3000 by default
 EXPOSE 3000
