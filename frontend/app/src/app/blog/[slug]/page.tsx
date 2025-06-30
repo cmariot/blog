@@ -7,7 +7,7 @@ import { useParams, useRouter } from 'next/navigation';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { Calendar, Clock, Eye, ArrowLeft, Share, Link } from 'lucide-react';
+import { Calendar, Clock, Eye, ArrowLeft, Share } from 'lucide-react';
 import slugify from 'slugify';
 import { remark } from 'remark';
 import remarkParse from 'remark-parse';
@@ -28,7 +28,7 @@ export default function ArticlePage() {
     const { slug } = useParams();
     const [article, setArticle] = useState<Article | null>(null);
     const [loading, setLoading] = useState(true);
-    const [toc, setToc] = useState<any[]>([]);
+    const [toc, setToc] = useState<{ id: string; title: string; level: number }[]>([]);
     const router = useRouter();
 
     useEffect(() => {
@@ -55,11 +55,13 @@ export default function ArticlePage() {
         }
         const tree = remark().use(remarkParse).parse(article.content);
         const headings: { id: string; title: string; level: number }[] = [];
-        visit(tree, 'heading', (node: any) => {
-            const text = node.children
-                .filter((n: any) => n.type === 'text' || n.type === 'inlineCode')
-                .map((n: any) => n.value)
-                .join(' ');
+        visit(tree, 'heading', (node: import('mdast').Heading) => {
+            const text = Array.isArray(node.children)
+                ? node.children
+                    .filter((n): n is import('mdast').Text | import('mdast').InlineCode => n.type === 'text' || n.type === 'inlineCode')
+                    .map((n) => n.value)
+                    .join(' ')
+                : '';
             if (text) {
                 headings.push({
                     id: getHeadingId(text),
@@ -77,7 +79,7 @@ export default function ArticlePage() {
     }
 
     if (loading) {
-        return <div className="text-center py-12 text-muted-foreground">Chargement de l'article…</div>;
+        return <div className="text-center py-12 text-muted-foreground">Chargement de l&apos;article…</div>;
     }
 
     if (!article) {
@@ -212,8 +214,8 @@ export default function ArticlePage() {
         if (typeof children === 'string') return children;
         if (Array.isArray(children)) return children.map(childrenToString).join('');
         if (typeof children === 'object' && children !== null && 'props' in children) {
-            // @ts-ignore
-            return childrenToString(children.props.children);
+            // children is a React element and may have props.children, safe to ignore for string conversion
+            return childrenToString((children as { props: { children: React.ReactNode } }).props.children);
         }
         return '';
     }

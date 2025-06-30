@@ -26,7 +26,7 @@ export default function BlogPage() {
 
     const [searchTerm, setSearchTerm] = useState('');
     const [selectedTag, setSelectedTag] = useState('');
-    const [blogPosts, setBlogPosts] = useState<any[]>([]);
+    const [blogPosts, setBlogPosts] = useState<{ title: string; slug: string; excerpt: string; content: string; tags: string[]; date: string; readTime: string; views: number; featured?: boolean; }[]>([]);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
@@ -149,7 +149,7 @@ export default function BlogPage() {
                                             ))}
                                         </div>
                                         <div className="flex items-center text-sm text-primary group-hover:gap-2 transition-all">
-                                            Lire l'article
+                                            Lire l&apos;article
                                             <ArrowRight className="h-3 w-3 ml-1 group-hover:translate-x-1 transition-transform" />
                                         </div>
                                     </CardContent>
@@ -202,7 +202,7 @@ export default function BlogPage() {
                                         ))}
                                     </div>
                                     <div className="flex items-center text-sm text-primary group-hover:gap-2 transition-all">
-                                        Lire l'article
+                                        Lire l&apos;article
                                         <ArrowRight className="h-3 w-3 ml-1 group-hover:translate-x-1 transition-transform" />
                                     </div>
                                 </CardContent>
@@ -216,7 +216,7 @@ export default function BlogPage() {
             {filteredPosts.length === 0 && (
                 <div className="text-center py-12">
                     <p className="text-muted-foreground">
-                        Aucun article trouvé pour "{searchTerm}" {selectedTag && `avec le tag "${selectedTag}"`}
+                        Aucun article trouvé pour &quot;{searchTerm}&quot; {selectedTag && `avec le tag &quot;${selectedTag}&quot;`}
                     </p>
                     <Button variant="ghost" onClick={() => { setSearchTerm(''); setSelectedTag(''); }} className="mt-4">
                         Réinitialiser les filtres

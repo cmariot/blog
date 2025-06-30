@@ -9,27 +9,22 @@ import api from '@/lib/api';
 
 export default function ProjectsPage() {
 
-    // Liste statique de projets (à garder en référence)
-    /*
-    const projects = [
-        {
-            title: "DevBlog Platform",
-            description: "Plateforme de blog optimisée pour développeurs avec syntax highlighting, support markdown, et système de tags avancé.",
-            status: "completed",
-            category: "Web",
-            tech: ["Next.js", "TypeScript", "Tailwind", "MDX", "Vercel"],
-            github: "https://github.com",
-            demo: "https://demo.com",
-            image: "🖥️",
-            featured: true
-        },
-        // ... autres projets ...
-    ];
-    */
-
     const categories = ["Tous", "Web", "Library", "Tools", "AI", "Automation", "DevOps"];
     const [selectedCategory, setSelectedCategory] = useState("Tous");
-    const [projects, setProjects] = useState<any[]>([]);
+    const [projects, setProjects] = useState<{
+        title: string;
+        description: string;
+        tags: string[];
+        date: string;
+        link?: string;
+        status?: string;
+        category?: string;
+        tech?: string[];
+        github?: string;
+        demo?: string;
+        image?: string;
+        featured?: boolean;
+    }[]>([]);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
@@ -48,20 +43,6 @@ export default function ProjectsPage() {
     const filteredProjects = selectedCategory === "Tous"
         ? projects
         : projects.filter(project => project.category === selectedCategory);
-
-    const getStatusColor = (status: string) => {
-    //     switch (status) {
-    //         case 'completed':
-    //             return '';
-    //         case 'in-progress':
-    //             return 'bg-blue-500/20 text-blue-300 border-blue-500/30';
-    //         case 'idea':
-    //             return 'bg-purple-500/20 text-purple-300 border-purple-500/30';
-    //         default:
-    //             return 'bg-muted/50 text-muted-foreground';
-    //     }
-        return '';
-    };
 
     const getStatusText = (status: string) => {
         switch (status) {
@@ -141,11 +122,11 @@ export default function ProjectsPage() {
                                         </CardHeader>
                                         <CardContent className="space-y-4">
                                             <div className="flex items-center gap-2">
-                                                <Badge className={getStatusColor(project.status)}>
-                                                    {getStatusText(project.status)}
+                                                <Badge>
+                                                    {getStatusText(project.status || '')}
                                                 </Badge>
                                                 <Badge variant="outline" className="gap-1">
-                                                    {getCategoryIcon(project.category)}
+                                                    {getCategoryIcon(project.category || '')}
                                                     {project.category}
                                                 </Badge>
                                             </div>
@@ -195,8 +176,8 @@ export default function ProjectsPage() {
                                         <div className="flex items-center justify-between mb-3">
                                             <div className="text-3xl">{project.image}</div>
                                             <div className="flex gap-2">
-                                                <Badge className={getStatusColor(project.status)}>
-                                                    {getStatusText(project.status)}
+                                                <Badge>
+                                                    {getStatusText(project.status || '')}
                                                 </Badge>
                                             </div>
                                         </div>
@@ -207,7 +188,7 @@ export default function ProjectsPage() {
                                     </CardHeader>
                                     <CardContent className="space-y-4">
                                         <Badge variant="outline" className="gap-1">
-                                            {getCategoryIcon(project.category)}
+                                            {getCategoryIcon(project.category || '')}
                                             {project.category}
                                         </Badge>
 

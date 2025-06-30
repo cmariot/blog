@@ -1,9 +1,9 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { ArrowRight, Code, Target, Zap, Calendar, ExternalLink } from 'lucide-react';
+import { ArrowRight, Target, Calendar } from 'lucide-react';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import api from '@/lib/api';
@@ -23,12 +23,6 @@ interface Article {
 
 export default function HomePage() {
     const [recentPosts, setRecentPosts] = useState<Article[]>([]);
-    const currentFocus = [
-        "Architecture patterns & Clean Code",
-        "TypeScript avancé & patterns fonctionnels",
-        "Optimisation des performances web",
-        "Contributions open source régulières"
-    ];
 
     useEffect(() => {
         api.get('/blog/articles/?limit=3')
@@ -71,38 +65,6 @@ export default function HomePage() {
                     </Button> */}
                 </div>
             </section>
-
-            {/* Current Status
-            <section className="space-y-6">
-                <h2 className="text-2xl font-bold tracking-tight">Focus actuel</h2>
-                <Card className="glow-effect">
-                    <CardHeader>
-                        <CardTitle className="flex items-center gap-2">
-                            <Zap className="h-5 w-5 text-primary" />
-                            Objectifs en cours
-                        </CardTitle>
-                        <CardDescription>
-                            Ce sur quoi je travaille activement cette période
-                        </CardDescription>
-                    </CardHeader>
-                    <CardContent>
-                        <div className="grid gap-3">
-                            {currentFocus.map((focus, index) => (
-                                <div key={index} className="flex items-center gap-3 p-3 rounded-md bg-muted/50">
-                                    <div className="h-2 w-2 rounded-full bg-primary animate-pulse-slow" />
-                                    <span className="text-sm">{focus}</span>
-                                </div>
-                            ))}
-                        </div>
-                        <Button variant="ghost" asChild className="w-full mt-4">
-                            <Link href="/roadmap" className="gap-2">
-                                Voir la roadmap complète
-                                <ArrowRight className="h-4 w-4" />
-                            </Link>
-                        </Button>
-                    </CardContent>
-                </Card>
-            </section> */}
 
             {/* Recent Blog Posts */}
             <section className="space-y-6">

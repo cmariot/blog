@@ -78,8 +78,8 @@ export default function AboutPage() {
             <div className="text-center space-y-4">
                 <h1 className="text-4xl font-bold tracking-tighter">À propos</h1>
                 <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-                    Développeur autodidacte en quête d'excellence technique.
-                    Passionné par l'architecture logicielle et l'apprentissage continu.
+                    Développeur autodidacte en quête d&apos;excellence technique.
+                    Passionné par l&apos;architecture logicielle et l&apos;apprentissage continu.
                 </p>
             </div>
 
@@ -90,19 +90,19 @@ export default function AboutPage() {
                     <CardContent className="p-0">
                         <div className="prose prose-neutral dark:prose-invert max-w-none">
                             <p className="text-lg leading-relaxed">
-                                Salut ! Je suis un développeur qui vise a se specialiser dans l'IA et la donnee.
-                                Après avoir découvert la programmation il y a quelques années, j'ai rapidement réalisé
+                                Salut ! Je suis un développeur qui vise a se specialiser dans l&apos;IA et la donnee.
+                                Après avoir découvert la programmation il y a quelques années, j&apos;ai rapidement réalisé
                                 que ce domaine correspondait parfaitement à ma façon de penser et de résoudre des problèmes.
                             </p>
                             <p className="leading-relaxed">
-                                Aujourd'hui, je me concentre sur l'apprentissage des concepts avancés :
+                                Aujourd&apos;hui, je me concentre sur l&apos;apprentissage des concepts avancés :
                                 architecture logicielle, patterns de conception, optimisation des performances,
-                                et contribution à l'écosystème open source. Mon objectif est de devenir
+                                et contribution à l&apos;écosystème open source. Mon objectif est de devenir
                                 un développeur capable de concevoir et implémenter des systèmes robustes et évolutifs.
                             </p>
                             <p className="leading-relaxed">
                                 Ce site documente publiquement ma progression. Je crois en la transparence
-                                et au partage de connaissances comme moyens d'accélérer l'apprentissage
+                                et au partage de connaissances comme moyens d&apos;accélérer l&apos;apprentissage
                                 et de contribuer à la communauté.
                             </p>
                         </div>

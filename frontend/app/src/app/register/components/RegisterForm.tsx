@@ -19,7 +19,7 @@ export default function RegisterForm() {
         try {
             await register(username, email, password);
             router.push('/');
-        } catch (err) {
+        } catch {
             alert('Register failed');
         }
     };

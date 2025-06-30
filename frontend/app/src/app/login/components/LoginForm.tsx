@@ -18,7 +18,7 @@ export default function LoginForm() {
         try {
             await login(username, password);
             router.push('/');
-        } catch (err) {
+        } catch {
             alert('Login failed');
         }
     };

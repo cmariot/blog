@@ -7,7 +7,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Badge } from '@/components/ui/badge';
-import { Mail, Github, Linkedin, Twitter, Send, MapPin } from 'lucide-react';
+import { Mail, Github, Send, MapPin } from 'lucide-react';
 
 
 export default function ContactPage() {
@@ -29,8 +29,9 @@ export default function ContactPage() {
             await api.post('/contact/', form);
             setSuccess('Message envoyé !');
             setForm({ name: '', email: '', subject: '', message: '' });
-        } catch (err: any) {
-            setError(err?.response?.data?.error || "Erreur lors de l'envoi");
+        } catch (err: unknown) {
+            const errorMsg = (err && typeof err === 'object' && 'response' in err && err.response && typeof err.response === 'object' && 'data' in err.response && err.response.data && typeof err.response.data === 'object' && 'error' in err.response.data) ? (err as { response?: { data?: { error?: string } } }).response?.data?.error : "Erreur lors de l&apos;envoi";
+            setError(errorMsg || null);
         } finally {
             setLoading(false);
         }
