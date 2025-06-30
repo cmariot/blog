@@ -50,11 +50,13 @@ function SheetContent({
     side = "right",
     title = "title",
     hideTitle = true,
+    description = "menu",
     ...props
 }: React.ComponentProps<typeof SheetPrimitive.Content> & {
     side?: "top" | "right" | "bottom" | "left"
     title: React.ReactNode
     hideTitle?: boolean
+    description?: string
 }) {
     return (
         <SheetPortal>
@@ -79,9 +81,13 @@ function SheetContent({
                     hideTitle ? (
                         <span className="sr-only">
                             <SheetTitle>{title}</SheetTitle>
+                            <SheetDescription>{description}</SheetDescription>
                         </span>
                     ) : (
-                        <SheetTitle>{title}</SheetTitle>
+                        <span>
+                            <SheetTitle>{title}</SheetTitle>
+                            <SheetDescription>{description}</SheetDescription>
+                        </span>
                     )
                 )}
                 {children}

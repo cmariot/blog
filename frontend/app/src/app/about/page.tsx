@@ -2,33 +2,41 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
 import { MapPin, Calendar, Code2, Heart, Target, Lightbulb } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import Link from 'next/link';
 
 
 export default function AboutPage() {
 
     const timeline = [
         {
-            year: "2024",
+            year: "2025",
             title: "Transition vers l'excellence technique",
             description: "Décision de me reconvertir complètement vers le développement de haut niveau. Focus sur l'architecture, les patterns avancés et les contributions open source.",
             type: "transition"
         },
         {
+            year: "2024",
+            title: "Specialisation en IA et data",
+            description: "",
+            type: "specialisation"
+        },
+        {
             year: "2023",
-            title: "Premiers projets en freelance",
+            title: "Common core 42 valide",
             description: "Développement d'applications web pour des clients locaux. Découverte de React, Node.js et des bases de données modernes.",
             type: "work"
         },
         {
             year: "2022",
-            title: "Formation intensive développement web",
-            description: "6 mois de formation intensive en développement full-stack. HTML, CSS, JavaScript, puis React et Express.",
+            title: "Les bases de la programmation en C et C++",
+            description: "Je pars des bases, recoder une mini librairie de fonctions, jusqu'a developper un serveur web, en passant par un moteur de ray-tracing et un shell",
             type: "education"
         },
         {
             year: "2021",
             title: "Première ligne de code",
-            description: "Découverte de la programmation via des tutoriels YouTube. Le déclic : 'Je veux faire ça toute ma vie'.",
+            description: "Découverte de la programmation a la piscine de l'ecole 42.",
             type: "milestone"
         }
     ];
@@ -78,11 +86,11 @@ export default function AboutPage() {
             {/* Bio Section */}
             <section className="space-y-6">
                 <h2 className="text-2xl font-bold">Mon histoire</h2>
-                <Card>
-                    <CardContent className="pt-6">
+                <Card className='p-0'>
+                    <CardContent className="p-0">
                         <div className="prose prose-neutral dark:prose-invert max-w-none">
                             <p className="text-lg leading-relaxed">
-                                Salut ! Je suis un développeur en transformation profonde vers l'excellence technique.
+                                Salut ! Je suis un développeur qui vise a se specialiser dans l'IA et la donnee.
                                 Après avoir découvert la programmation il y a quelques années, j'ai rapidement réalisé
                                 que ce domaine correspondait parfaitement à ma façon de penser et de résoudre des problèmes.
                             </p>
@@ -110,9 +118,9 @@ export default function AboutPage() {
                         <div key={index} className="flex gap-6">
                             <div className="flex flex-col items-center">
                                 <div className={`w-4 h-4 rounded-full border-2 ${item.type === 'milestone' ? 'bg-primary border-primary' :
-                                        item.type === 'transition' ? 'bg-blue-500 border-blue-500' :
-                                            item.type === 'education' ? 'bg-purple-500 border-purple-500' :
-                                                'bg-muted border-border'
+                                    item.type === 'transition' ? 'bg-blue-500 border-blue-500' :
+                                        item.type === 'education' ? 'bg-purple-500 border-purple-500' :
+                                            'bg-muted border-border'
                                     }`} />
                                 {index < timeline.length - 1 && (
                                     <div className="w-px h-16 bg-border mt-2" />
@@ -200,6 +208,11 @@ export default function AboutPage() {
                         <Calendar className="h-4 w-4" />
                         Disponible pour des projets
                     </div>
+                    <Button asChild className="gap-2">
+                        <Link href="/contact">
+                            Contact
+                        </Link>
+                    </Button>
                 </div>
             </section>
         </div>

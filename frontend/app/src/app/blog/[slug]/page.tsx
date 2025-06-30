@@ -7,10 +7,11 @@ import { useParams, useRouter } from 'next/navigation';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { Separator } from '@/components/ui/separator';
 import { Calendar, Clock, Eye, ArrowLeft, Share, Link } from 'lucide-react';
-import getTocFromMarkdown from '@/lib/getTocFromMarkdown';
 import slugify from 'slugify';
+import { remark } from 'remark';
+import remarkParse from 'remark-parse';
+import { visit } from 'unist-util-visit';
 
 interface Article {
     title: string;
@@ -37,7 +38,6 @@ export default function ArticlePage() {
             .then(res => {
                 const data = res.data as Article;
                 setArticle(data);
-                setToc(getTocFromMarkdown(data.content || ''));
                 setLoading(false);
             })
             .catch(() => {
@@ -46,6 +46,30 @@ export default function ArticlePage() {
                 setLoading(false);
             });
     }, [slug]);
+
+    // Génération du ToC à partir du markdown avec remark
+    useEffect(() => {
+        if (!article?.content) {
+            setToc([]);
+            return;
+        }
+        const tree = remark().use(remarkParse).parse(article.content);
+        const headings: { id: string; title: string; level: number }[] = [];
+        visit(tree, 'heading', (node: any) => {
+            const text = node.children
+                .filter((n: any) => n.type === 'text' || n.type === 'inlineCode')
+                .map((n: any) => n.value)
+                .join(' ');
+            if (text) {
+                headings.push({
+                    id: getHeadingId(text),
+                    title: text,
+                    level: node.depth
+                });
+            }
+        });
+        setToc(headings);
+    }, [article]);
 
     // Fonction utilitaire pour générer un id à partir du texte du titre
     function getHeadingId(text: string) {
@@ -126,6 +150,15 @@ export default function ArticlePage() {
                                         <a
                                             key={index}
                                             href={`#${item.id}`}
+                                            onClick={e => {
+                                                e.preventDefault();
+                                                const el = document.getElementById(item.id);
+                                                if (el) {
+                                                    const yOffset = -80; // Ajustez selon la hauteur de votre header sticky
+                                                    const y = el.getBoundingClientRect().top + window.pageYOffset + yOffset;
+                                                    window.scrollTo({ top: y, behavior: 'smooth' });
+                                                }
+                                            }}
                                             className={`block text-sm text-muted-foreground hover:text-primary transition-colors py-1 border-l-2 border-transparent hover:border-primary pl-3 ml-${(item.level - 1) * 2}`}
                                         >
                                             {item.title}
@@ -160,12 +193,10 @@ export default function ArticlePage() {
                             <Button variant="ghost" className="gap-2" onClick={() => router.push('/blog')}>
                                 {/* <ArrowLeft className="h-4 w-4" /> */}
                                 {/* Retour au blog */}
-
                                 <div className="flex items-center text-sm text-primary group-hover:gap-2 transition-all">
                                     <ArrowLeft className="h-4 w-4 mr-1 group-hover:translate-x-1 transition-transform" />
                                     <span>
                                         Retour au blog
-
                                     </span>
                                 </div>
                             </Button>

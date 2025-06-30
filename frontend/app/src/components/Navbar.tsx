@@ -62,7 +62,13 @@ const Header = () => {
                                 <Menu className="h-4 w-4" />
                             </Button>
                         </SheetTrigger>
-                        <SheetContent title="Menu principal" side="right" className="w-[300px] sm:w-[400px]">
+                        <SheetContent
+                            title="Menu principal"
+                            description="Acces aux pages du site"
+                            hideTitle={true}
+                            side="right"
+                            className="w-[300px] sm:w-[400px]"
+                        >
                             <nav className="flex flex-col space-y-4 mt-8">
                                 {navItems.map((item) => (
                                     <Link

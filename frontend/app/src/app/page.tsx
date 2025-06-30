@@ -57,18 +57,18 @@ export default function HomePage() {
                 </div>
 
                 <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                    <Button asChild size="lg" className="gap-2">
+                    <Button asChild size="lg" variant="outline" className="gap-2">
                         <Link href="/about">
                             <Target className="h-4 w-4" />
                             À propos
                         </Link>
                     </Button>
-                    <Button variant="outline" size="lg" asChild className="gap-2">
+                    {/* <Button variant="outline" size="lg" asChild className="gap-2">
                         <Link href="/projects">
                             <Code className="h-4 w-4" />
                             Mes projets
                         </Link>
-                    </Button>
+                    </Button> */}
                 </div>
             </section>
 
@@ -160,16 +160,21 @@ export default function HomePage() {
                 </p>
                 <div className="flex flex-col sm:flex-row gap-4 justify-center">
                     <Button asChild variant="outline" className="gap-2">
+                        <Link href="/projects">
+                            Mes projets
+                        </Link>
+                    </Button>
+                    <Button asChild className="gap-2">
                         <Link href="/contact">
                             Contactez moi
                         </Link>
                     </Button>
-                    <Button asChild variant="outline" className="gap-2">
+                    {/* <Button asChild variant="outline" className="gap-2">
                         <a href="https://github.com/cmariot" target="_blank" rel="noopener noreferrer">
                             GitHub
                             <ExternalLink className="h-4 w-4" />
                         </a>
-                    </Button>
+                    </Button> */}
                 </div>
             </section>
         </div>

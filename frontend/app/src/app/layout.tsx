@@ -24,15 +24,11 @@ export default function RootLayout({
                     defaultTheme="system"
                     enableSystem
                     disableTransitionOnChange
-                    value={{
-                        dark: "dark"
-                        // PAS de clé light ici !
-                    }}
                 >
                     {/* ... */}
                     <AuthProvider>
                         <NavBar />
-                        <main className="flex-1 container mx-auto px-4">
+                        <main className="flex-1 container mx-auto px-4 max-w-[1000px]">
                             {children}
                         </main>
                         <Footer />
