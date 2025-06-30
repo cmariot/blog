@@ -86,10 +86,10 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 
 if ENV == 'production':
     CORS_ALLOWED_ORIGINS = [
-        'https://charles-mariot.fr',
+        'https://charles-mariot.fr'
     ]
     CSRF_TRUSTED_ORIGINS = [
-        'https://charles-mariot.fr',
+        'https://charles-mariot.fr'
     ]
 else:
     CORS_ALLOWED_ORIGINS = [

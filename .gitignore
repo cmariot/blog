@@ -8,3 +8,6 @@
 /database/.env
 
 /frontend/app/node_modules
+
+/nginx/certs/
+
