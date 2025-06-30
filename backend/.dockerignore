@@ -1,2 +1,11 @@
 venv
 Dockerfile
+.git
+__pycache__/
+*.pyc
+.env
+migrations/
+tests/
+*.log
+database/
+.DS_Store
