@@ -60,6 +60,7 @@ export default function ProjectsPage() {
     //         default:
     //             return 'bg-muted/50 text-muted-foreground';
     //     }
+        return '';
     };
 
     const getStatusText = (status: string) => {

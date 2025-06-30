@@ -14,6 +14,8 @@ from pathlib import Path
 import os
 from datetime import timedelta
 
+ENV = os.environ.get('ENV', 'development')
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -25,9 +27,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.environ.get('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = ENV != 'production'
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1']
+ALLOWED_HOSTS = (
+    ['localhost', '127.0.0.1'] if ENV != 'production'
+    else ['charles-mariot.fr']
+)
 
 
 # Application definition
@@ -79,15 +84,22 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'backend.wsgi.application'
 
-CORS_ALLOWED_ORIGINS = [       # Allows access from the frontend
-    'http://localhost:3000',
-    'http://localhost:8080',
-]
-
-CSRF_TRUSTED_ORIGINS = [
-    'http://localhost:3000',
-    'http://localhost:8080',
-]
+if ENV == 'production':
+    CORS_ALLOWED_ORIGINS = [
+        'https://charles-mariot.fr',
+    ]
+    CSRF_TRUSTED_ORIGINS = [
+        'https://charles-mariot.fr',
+    ]
+else:
+    CORS_ALLOWED_ORIGINS = [
+        'http://localhost:3000',
+        'http://localhost:8080',
+    ]
+    CSRF_TRUSTED_ORIGINS = [
+        'http://localhost:3000',
+        'http://localhost:8080',
+    ]
 
 # Rest Framework config
 REST_FRAMEWORK = {
@@ -174,3 +186,12 @@ EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD', '')
 EMAIL_USE_TLS = os.environ.get('EMAIL_USE_TLS', 'False') == 'True'
 DEFAULT_FROM_EMAIL = os.environ.get('DEFAULT_FROM_EMAIL', 'noreply@localhost')
 CONTACT_EMAIL = os.environ.get('CONTACT_EMAIL', 'contact@localhost')
+
+# Security
+if ENV == 'production':
+    SECURE_SSL_REDIRECT = True
+    SESSION_COOKIE_SECURE = True
+    CSRF_COOKIE_SECURE = True
+    SECURE_HSTS_SECONDS = 3600
+    SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+    SECURE_HSTS_PRELOAD = True
