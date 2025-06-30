@@ -26,7 +26,14 @@ export default function HomePage() {
 
     useEffect(() => {
         api.get('/blog/articles/?limit=3')
-            .then(res => setRecentPosts(res.data as Article[]))
+            .then(res => {
+                // On vérifie que la réponse est bien un tableau
+                if (Array.isArray(res.data)) {
+                    setRecentPosts(res.data as Article[]);
+                } else {
+                    setRecentPosts([]);
+                }
+            })
             .catch(() => setRecentPosts([]));
     }, []);
 
@@ -37,13 +44,7 @@ export default function HomePage() {
                 <div className="mx-auto h-40 w-40 rounded-full bg-gradient-to-br from-primary to-primary/60 flex items-center justify-center mb-8">
                     <span className="text-3xl font-mono font-bold text-white">cmariot</span>
                 </div>
-
                 <div className="space-y-4">
-                    {/* <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl lg:text-7xl">
-                        <span className="font-mono text-primary">[</span>
-                        Hello
-                        <span className="font-mono text-primary">]</span>
-                    </h1> */}
                     <p className="mx-auto max-w-[700px] text-muted-foreground text-lg md:text-xl">
                         Développeur passionné,
                         je documente publiquement ma progression, mes projets et mes apprentissages.
@@ -57,12 +58,6 @@ export default function HomePage() {
                             À propos
                         </Link>
                     </Button>
-                    {/* <Button variant="outline" size="lg" asChild className="gap-2">
-                        <Link href="/projects">
-                            <Code className="h-4 w-4" />
-                            Mes projets
-                        </Link>
-                    </Button> */}
                 </div>
             </section>
 
@@ -79,37 +74,43 @@ export default function HomePage() {
                 </div>
 
                 <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-                    {recentPosts.map((post, index) => (
-                        <Link key={index} href={`/blog/${post.slug}`} className="group">
-                            <Card className="hover:shadow-lg transition-shadow cursor-pointer group h-full flex flex-col">
-                                <CardHeader className="flex-1">
-                                    <div className="flex items-center gap-2 text-sm text-muted-foreground mb-2">
-                                        <Calendar className="h-3 w-3" />
-                                        {new Date(post.date).toLocaleDateString('fr-FR')}
-                                    </div>
-                                    <CardTitle className="text-lg group-hover:text-primary transition-colors line-clamp-2 min-h-[3.5rem]">
-                                        {post.title}
-                                    </CardTitle>
-                                </CardHeader>
-                                <CardContent className="space-y-3 flex-1 flex flex-col">
-                                    <p className="text-sm text-muted-foreground leading-relaxed line-clamp-3 min-h-[4.5rem]">
-                                        {post.excerpt}
-                                    </p>
-                                    <div className="flex flex-wrap gap-1 min-h-[2rem]">
-                                        {post.tags.map((tag: string) => (
-                                            <Badge key={tag} variant="secondary" className="text-xs">
-                                                {tag}
-                                            </Badge>
-                                        ))}
-                                    </div>
-                                    <div className="flex items-center text-sm text-primary group-hover:gap-2 transition-all mt-auto">
-                                        Lire la suite
-                                        <ArrowRight className="h-3 w-3 ml-1 group-hover:translate-x-1 transition-transform" />
-                                    </div>
-                                </CardContent>
-                            </Card>
-                        </Link>
-                    ))}
+                    {Array.isArray(recentPosts) && recentPosts.length > 0 ? (
+                        recentPosts.map((post, index) => (
+                            <Link key={index} href={`/blog/${post.slug}`} className="group">
+                                <Card className="hover:shadow-lg transition-shadow cursor-pointer group h-full flex flex-col">
+                                    <CardHeader className="flex-1">
+                                        <div className="flex items-center gap-2 text-sm text-muted-foreground mb-2">
+                                            <Calendar className="h-3 w-3" />
+                                            {new Date(post.date).toLocaleDateString('fr-FR')}
+                                        </div>
+                                        <CardTitle className="text-lg group-hover:text-primary transition-colors line-clamp-2 min-h-[3.5rem]">
+                                            {post.title}
+                                        </CardTitle>
+                                    </CardHeader>
+                                    <CardContent className="space-y-3 flex-1 flex flex-col">
+                                        <p className="text-sm text-muted-foreground leading-relaxed line-clamp-3 min-h-[4.5rem]">
+                                            {post.excerpt}
+                                        </p>
+                                        <div className="flex flex-wrap gap-1 min-h-[2rem]">
+                                            {post.tags.map((tag: string) => (
+                                                <Badge key={tag} variant="secondary" className="text-xs">
+                                                    {tag}
+                                                </Badge>
+                                            ))}
+                                        </div>
+                                        <div className="flex items-center text-sm text-primary group-hover:gap-2 transition-all mt-auto">
+                                            Lire la suite
+                                            <ArrowRight className="h-3 w-3 ml-1 group-hover:translate-x-1 transition-transform" />
+                                        </div>
+                                    </CardContent>
+                                </Card>
+                            </Link>
+                        ))
+                    ) : (
+                        <div className="col-span-full text-center text-muted-foreground">
+                            Aucun article récent à afficher.
+                        </div>
+                    )}
                 </div>
             </section>
 
@@ -131,12 +132,6 @@ export default function HomePage() {
                             Contactez moi
                         </Link>
                     </Button>
-                    {/* <Button asChild variant="outline" className="gap-2">
-                        <a href="https://github.com/cmariot" target="_blank" rel="noopener noreferrer">
-                            GitHub
-                            <ExternalLink className="h-4 w-4" />
-                        </a>
-                    </Button> */}
                 </div>
             </section>
         </div>
