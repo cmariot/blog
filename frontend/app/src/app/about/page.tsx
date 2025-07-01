@@ -208,12 +208,12 @@ export default function AboutPage() {
                         <Calendar className="h-4 w-4" />
                         Disponible pour des projets
                     </div>
+                    <Button asChild className="gap-2">
+                        <Link href="/contact">
+                            Contact
+                        </Link>
+                    </Button>
                 </div>
-                <Button asChild className="gap-2">
-                    <Link href="/contact">
-                        Contact
-                    </Link>
-                </Button>
             </section>
         </div>
     );
