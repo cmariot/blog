@@ -18,7 +18,7 @@ export default function AboutPage() {
         {
             year: "2024",
             title: "Specialisation en IA et data",
-            description: "",
+            description: "Mise en place de modeles et entrainements",
             type: "specialisation"
         },
         {
