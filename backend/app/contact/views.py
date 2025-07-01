@@ -30,13 +30,12 @@ class ContactView(APIView):
                 [settings.CONTACT_EMAIL],
                 fail_silently=False,
             )
-            print("OK")
             return Response(
                 {'success': 'Message sent successfully.'},
                 status=status.HTTP_200_OK
                 )
-        except Exception as e:
+        except Exception:
             return Response(
-                {'error': str(e)},
+                {'error': "Error, try again later or send me a message at 'contact@charles-mariot.fr'"},
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR
             )
