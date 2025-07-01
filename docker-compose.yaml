@@ -69,11 +69,13 @@ services:
     depends_on:
       - backend
       - frontend
+    environment:
+      - ENV=${ENV}
     ports:
       - "80:80"
       - "443:443"
     volumes:
-      - ./nginx/conf.d:/etc/nginx/conf.d:ro
+      - ./nginx/conf.d:/etc/nginx/conf.d
       - ./backend/app/static:/staticfiles
       - ./nginx/certbot/www:/var/www/certbot
       - ./nginx/certs:/etc/nginx/certs
@@ -88,22 +90,6 @@ services:
     volumes:
       - ./nginx/certbot/www:/var/www/certbot
       - ./nginx/certs:/etc/letsencrypt
-
-  # pgadmin:
-  #   image: dpage/pgadmin4
-  #   container_name: pgadmin
-  #   ports:
-  #     - "5050:5050"
-  #   env_file:
-  #     .env
-  #   depends_on:
-  #     database:
-  #       condition: service_healthy
-  #   networks:
-  #     custom_network:
-  #       aliases:
-  #         - ${PROJECT_NAME}_pgadmin.local
-  #   restart: unless-stopped
 
 networks:
   custom_network:

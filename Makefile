@@ -26,8 +26,13 @@ shell-frontend:
 shell-db:
 	docker compose exec database sh
 
+shell-nginx:
+	docker compose exec reverse_proxy sh
+
 clean:
 	docker compose down -v --remove-orphans
+	rm -f ./nginx/conf.d/default.conf
+    rm -rf ./nginx/certbot/www
 
 fclean: clean
 	docker system prune -af

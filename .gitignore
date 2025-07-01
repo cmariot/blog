@@ -11,3 +11,5 @@
 
 /nginx/certs/
 
+/nginx/conf.d/default.conf
+/nginx/certbot/www
