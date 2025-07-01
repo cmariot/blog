@@ -42,11 +42,10 @@ export default function AboutPage() {
     ];
 
     const currentStack = {
-        languages: ["TypeScript", "JavaScript", "Python", "SQL"],
-        frontend: ["React", "Next.js", "Tailwind CSS", "Vite"],
-        backend: ["Node.js", "Django", "PostgreSQL", "Redis"],
-        tools: ["VS Code", "Git", "Docker", "Figma"],
-        learning: ["Rust", "GraphQL", "Kubernetes", "AI/ML"]
+        languages: ["Python", "JavaScript/TypeScript", "SQL", "C/C++", "Bash"],
+        frontend: ["React", "Next.js", "Tailwind CSS", "HTML", "CSS"],
+        backend: ["Django", "FastAPI", "PostgreSQL", "Redis"],
+        AI: ["PyTorch", "Numpy", "Pandas", "Matplotlib"]
     };
 
     const values = [
