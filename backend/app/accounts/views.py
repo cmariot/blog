@@ -1,89 +1,89 @@
-from rest_framework import generics
-from .serializers import RegisterSerializer
-from django.contrib.auth import get_user_model
-from rest_framework_simplejwt.views import TokenObtainPairView
-from rest_framework_simplejwt.tokens import RefreshToken
-from rest_framework.response import Response
-from rest_framework.views import APIView
-from rest_framework.permissions import IsAuthenticated
-from django.http import JsonResponse
-from rest_framework_simplejwt.exceptions import TokenError
-from rest_framework.permissions import AllowAny
+# from rest_framework import generics
+# from .serializers import RegisterSerializer
+# from django.contrib.auth import get_user_model
+# from rest_framework_simplejwt.views import TokenObtainPairView
+# from rest_framework_simplejwt.tokens import RefreshToken
+# from rest_framework.response import Response
+# from rest_framework.views import APIView
+# from rest_framework.permissions import IsAuthenticated
+# from django.http import JsonResponse
+# from rest_framework_simplejwt.exceptions import TokenError
+# from rest_framework.permissions import AllowAny
 
 
-class RegisterView(generics.CreateAPIView):
-    permission_classes = [AllowAny]
-    queryset = get_user_model().objects.all()
-    serializer_class = RegisterSerializer
+# class RegisterView(generics.CreateAPIView):
+#     permission_classes = [AllowAny]
+#     queryset = get_user_model().objects.all()
+#     serializer_class = RegisterSerializer
 
 
-class CookieTokenObtainPairView(TokenObtainPairView):
+# class CookieTokenObtainPairView(TokenObtainPairView):
 
-    def post(self, request, *args, **kwargs):
-        response = super().post(request, *args, **kwargs)
-        if response.status_code == 200:
-            access = response.data['access']
-            refresh = response.data['refresh']
-            response.set_cookie(
-                key='access',
-                value=access,
-                httponly=True,
-                secure=True,
-                samesite='None'
-            )
-            response.set_cookie(
-                key='refresh',
-                value=refresh,
-                httponly=True,
-                secure=True,
-                samesite='None'
-            )
-            del response.data['access']
-            del response.data['refresh']
-        return response
-
-
-class CookieTokenRefreshView(APIView):
-
-    def post(self, request, *args, **kwargs):
-        refresh_token = request.COOKIES.get('refresh')
-        if not refresh_token:
-            return Response({'detail': 'Refresh token missing.'}, status=401)
-        try:
-            refresh = RefreshToken(refresh_token)
-            access_token = str(refresh.access_token)
-        except TokenError:
-            return Response({'detail': 'Invalid refresh token.'}, status=401)
-        response = Response({'detail': 'Token refreshed.'})
-        response.set_cookie(
-            key='access',
-            value=access_token,
-            httponly=True,
-            secure=True,
-            samesite='None'
-        )
-        return response
+#     def post(self, request, *args, **kwargs):
+#         response = super().post(request, *args, **kwargs)
+#         if response.status_code == 200:
+#             access = response.data['access']
+#             refresh = response.data['refresh']
+#             response.set_cookie(
+#                 key='access',
+#                 value=access,
+#                 httponly=True,
+#                 secure=True,
+#                 samesite='None'
+#             )
+#             response.set_cookie(
+#                 key='refresh',
+#                 value=refresh,
+#                 httponly=True,
+#                 secure=True,
+#                 samesite='None'
+#             )
+#             del response.data['access']
+#             del response.data['refresh']
+#         return response
 
 
-class MeView(APIView):
+# class CookieTokenRefreshView(APIView):
 
-    permission_classes = [IsAuthenticated]
+#     def post(self, request, *args, **kwargs):
+#         refresh_token = request.COOKIES.get('refresh')
+#         if not refresh_token:
+#             return Response({'detail': 'Refresh token missing.'}, status=401)
+#         try:
+#             refresh = RefreshToken(refresh_token)
+#             access_token = str(refresh.access_token)
+#         except TokenError:
+#             return Response({'detail': 'Invalid refresh token.'}, status=401)
+#         response = Response({'detail': 'Token refreshed.'})
+#         response.set_cookie(
+#             key='access',
+#             value=access_token,
+#             httponly=True,
+#             secure=True,
+#             samesite='None'
+#         )
+#         return response
 
-    def get(self, request):
-        user = request.user
-        return JsonResponse({
-            'id': user.id,
-            'username': user.username,
-            'email': user.email,
-        })
+
+# class MeView(APIView):
+
+#     permission_classes = [IsAuthenticated]
+
+#     def get(self, request):
+#         user = request.user
+#         return JsonResponse({
+#             'id': user.id,
+#             'username': user.username,
+#             'email': user.email,
+#         })
 
 
-class LogoutView(APIView):
+# class LogoutView(APIView):
 
-    permission_classes = [IsAuthenticated]
+#     permission_classes = [IsAuthenticated]
 
-    def post(self, request):
-        response = Response({'detail': 'Logged out.'})
-        response.delete_cookie('access', samesite='None')
-        response.delete_cookie('refresh', samesite='None')
-        return response
+#     def post(self, request):
+#         response = Response({'detail': 'Logged out.'})
+#         response.delete_cookie('access', samesite='None')
+#         response.delete_cookie('refresh', samesite='None')
+#         return response
