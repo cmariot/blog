@@ -41,4 +41,10 @@ fclean: clean
 
 re: fclean build up
 
-.PHONY: up down build restart logs ps shell-backend shell-frontend shell-db clean fclean re
+dev:
+	docker compose up --build
+
+prod:
+	docker compose -f docker-compose.yaml up --build
+
+.PHONY: up down build restart logs ps shell-backend shell-frontend shell-db clean fclean re dev prod

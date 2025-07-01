@@ -50,9 +50,6 @@ services:
       dockerfile: Dockerfile
     environment:
       - ENV=${ENV}
-    volumes:
-      - ./frontend/app:/app/frontend
-      - /app/frontend/node_modules
     depends_on:
       - backend
     networks:
