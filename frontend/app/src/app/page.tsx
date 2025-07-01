@@ -128,7 +128,7 @@ export default function HomePage() {
                     </Button>
                     <Button asChild className="gap-2">
                         <Link href="/contact">
-                            Contactez moi
+                            Contact
                         </Link>
                     </Button>
                 </div>
