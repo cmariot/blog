@@ -33,7 +33,7 @@ RUN apt-get update && \
     rm -rf /var/lib/apt/lists/*
 
 # Copy the entire project into the container
-COPY app .
+COPY app ./
 
 # Copy the wait-for-postgres.sh script into the container and make it executable
 COPY wait-for-postgres.sh /wait-for-postgres.sh

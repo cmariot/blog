@@ -11,21 +11,19 @@ from rest_framework_simplejwt.exceptions import TokenError
 from rest_framework.permissions import AllowAny
 
 
-# Create a new user
 class RegisterView(generics.CreateAPIView):
     permission_classes = [AllowAny]
     queryset = get_user_model().objects.all()
     serializer_class = RegisterSerializer
 
 
-#
 class CookieTokenObtainPairView(TokenObtainPairView):
+
     def post(self, request, *args, **kwargs):
         response = super().post(request, *args, **kwargs)
         if response.status_code == 200:
             access = response.data['access']
             refresh = response.data['refresh']
-            # Place les tokens dans des cookies HTTPOnly
             response.set_cookie(
                 key='access',
                 value=access,
@@ -40,13 +38,13 @@ class CookieTokenObtainPairView(TokenObtainPairView):
                 secure=True,
                 samesite='None'
             )
-            # Optionnel : ne pas renvoyer les tokens dans le body
             del response.data['access']
             del response.data['refresh']
         return response
 
 
 class CookieTokenRefreshView(APIView):
+
     def post(self, request, *args, **kwargs):
         refresh_token = request.COOKIES.get('refresh')
         if not refresh_token:
@@ -68,6 +66,7 @@ class CookieTokenRefreshView(APIView):
 
 
 class MeView(APIView):
+
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
@@ -80,7 +79,9 @@ class MeView(APIView):
 
 
 class LogoutView(APIView):
+
     permission_classes = [IsAuthenticated]
+
     def post(self, request):
         response = Response({'detail': 'Logged out.'})
         response.delete_cookie('access', samesite='None')

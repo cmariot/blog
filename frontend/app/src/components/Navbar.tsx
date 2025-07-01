@@ -15,8 +15,6 @@ const Header = () => {
     const navItems = [
         { href: '/', label: 'Home' },
         { href: '/about', label: 'About' },
-        // { href: '/progress', label: 'Progress' },
-        // { href: '/roadmap', label: 'Roadmap' },
         { href: '/blog', label: 'Blog' },
         { href: '/projects', label: 'Projets' },
         { href: '/contact', label: 'Contact' },
@@ -26,7 +24,6 @@ const Header = () => {
         if (path === "/") {
             return pathname === "/";
         }
-        // Active if pathname starts with path and next char is / or end of string
         return pathname === path || pathname.startsWith(path + "/");
     }
 
@@ -51,8 +48,6 @@ const Header = () => {
                     ))}
                 </nav>
                 <div className="flex items-center">
-                    {/* Language selector & Theme toggle */}
-                    {/* <LanguageSelector /> */}
                     <ThemeToggle />
                     {/* Mobile Menu */}
                     <Sheet open={open} onOpenChange={setOpen}>

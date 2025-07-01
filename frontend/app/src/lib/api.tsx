@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const api = axios.create({
-    baseURL: 'https://charles-mariot.fr/api/',
+    baseURL: process.env.NEXT_PUBLIC_API_BASE_URL || 'https://localhost/api/',
 });
 
 export default api;

@@ -27,7 +27,6 @@ export default function HomePage() {
     useEffect(() => {
         api.get('/blog/articles/?limit=3')
             .then(res => {
-                // On vérifie que la réponse est bien un tableau
                 if (Array.isArray(res.data)) {
                     setRecentPosts(res.data as Article[]);
                 } else {

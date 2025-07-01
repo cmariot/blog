@@ -32,7 +32,7 @@ shell-nginx:
 clean:
 	docker compose down -v --remove-orphans
 	rm -f ./nginx/conf.d/default.conf
-    rm -rf ./nginx/certbot/www
+	rm -rf ./nginx/certbot/www
 
 fclean: clean
 	docker system prune -af

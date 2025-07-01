@@ -5,16 +5,16 @@ FROM node:24-alpine
 WORKDIR /app/frontend/
 
 # First copy package.json and package-lock.json
-COPY app/package*.json .
+COPY app/package*.json ./
 
 # Install dependencies
 RUN npm install
 
-# Copy all source code to the working directory
-COPY app .
-
 # Disable telemetry
 RUN npx next telemetry disable
+
+# Copy all source code to the working directory
+COPY app .
 
 # Build the application
 RUN npm run build
@@ -25,5 +25,4 @@ ENV ENV=${ENV}
 EXPOSE 3000
 
 # CMD dynamique selon l'environnement
-# CMD ["tail", "-f"]
 CMD if [ "$ENV" = "production" ]; then npm run start; else npm run dev; fi

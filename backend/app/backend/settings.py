@@ -24,14 +24,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.environ.get('SECRET_KEY')
 
-# SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = ENV != 'production'
 
 ALLOWED_HOSTS = (
-    ['localhost', '127.0.0.1', 'charles-mariot.fr'] if ENV != 'production'
+    ['localhost'] if ENV != 'production'
     else ['charles-mariot.fr']
 )
 
@@ -94,14 +92,10 @@ if ENV == 'production':
     ]
 else:
     CORS_ALLOWED_ORIGINS = [
-        'https://charles-mariot.fr',
-        'http://localhost:3000',
-        'http://localhost:8080',
+        'https://localhost'
     ]
     CSRF_TRUSTED_ORIGINS = [
-        'https://charles-mariot.fr',
-        'http://localhost:3000',
-        'http://localhost:8080',
+        'https://localhost'
     ]
 
 # Rest Framework config

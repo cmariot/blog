@@ -21,7 +21,6 @@ interface Article {
     date: string;
     readTime: string;
     views: number;
-    // Ajoute d'autres champs si besoin
 }
 
 export default function ArticlePage() {

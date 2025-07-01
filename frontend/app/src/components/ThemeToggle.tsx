@@ -12,7 +12,6 @@ export default function ThemeToggle() {
         setMounted(true);
     }, []);
     if (!mounted) return null;
-    // Détermine si le thème courant est dark dynamiquement
     const isDark = (theme === 'dark') || (theme === 'system' && resolvedTheme === 'dark');
 
     const toggleTheme = () => {

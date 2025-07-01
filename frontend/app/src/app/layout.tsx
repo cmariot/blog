@@ -1,8 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import { AuthProvider } from '@/context/AuthContext';
-import NavBar from "@/components/Navbar";
 import { ThemeProvider } from "@/components/Theme";
+import NavBar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
 
@@ -25,14 +24,11 @@ export default function RootLayout({
                     enableSystem
                     disableTransitionOnChange
                 >
-                    {/* ... */}
-                    <AuthProvider>
-                        <NavBar />
-                        <main className="flex-1 container mx-auto px-4 max-w-[1000px]">
-                            {children}
-                        </main>
-                        <Footer />
-                    </AuthProvider>
+                    <NavBar />
+                    <main className="flex-1 container mx-auto px-4 max-w-[1000px]">
+                        {children}
+                    </main>
+                    <Footer />
                 </ThemeProvider>
             </body>
         </html>

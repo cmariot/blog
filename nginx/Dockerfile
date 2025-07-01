@@ -1,7 +1,10 @@
-FROM nginx:alpine
+FROM nginx:bookworm
 
-RUN apk update && apk upgrade && apk add --no-cache\
-	openssl
+RUN apt-get update && \
+    apt-get upgrade -y && \
+    apt-get install -y --no-install-recommends \
+        openssl && \
+    rm -rf /var/lib/apt/lists/*
 
 COPY conf.d/default.conf.template /etc/nginx/conf.d/default.conf.template
 COPY entrypoint.sh /entrypoint.sh
