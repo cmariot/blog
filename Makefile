@@ -45,6 +45,6 @@ dev:
 	docker compose up --build
 
 prod:
-	docker compose -f docker-compose.yaml up --build
+	docker compose -f docker-compose.yaml up --build --detach
 
 .PHONY: up down build restart logs ps shell-backend shell-frontend shell-db clean fclean re dev prod
