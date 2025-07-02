@@ -36,7 +36,7 @@ export default function ProjectsPage() {
         switch (status) {
             case 'completed':
                 return 'Terminé';
-            case 'in-progress':
+            case 'in_progress':
                 return 'En cours';
             case 'idea':
                 return 'Idée';
@@ -238,7 +238,7 @@ export default function ProjectsPage() {
                             </CardHeader>
                             <CardContent>
                                 <div className="text-2xl font-bold text-blue-500">
-                                    {filteredProjects.filter(p => p.status === 'in-progress').length}
+                                    {filteredProjects.filter(p => p.status === 'in_progress').length}
                                 </div>
                             </CardContent>
                         </Card>
