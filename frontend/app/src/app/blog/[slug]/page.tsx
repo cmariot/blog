@@ -21,7 +21,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
             description: article.excerpt || 'Article du blog de cmariot.',
             keywords: article.tags || ['blog', 'article', 'cmariot', 'développement'],
         };
-    } catch (error) {
+    } catch {
         return {
             title: 'Article introuvable | cmariot - Blog',
             description: 'Cet article est introuvable ou a été supprimé.',
