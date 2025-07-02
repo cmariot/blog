@@ -9,7 +9,7 @@ type Props = {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
     const slug = (await params).slug;
     try {
-        const res = await fetch(`http://backend:8000/blog/articles/${slug}/`, {
+        const res = await fetch(`http://backend:8000/blog/articles/${slug}/?no_count=1`, {
             headers: { Accept: 'application/json' }
         });
         if (!res.ok) {
@@ -22,7 +22,6 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
             keywords: article.tags || ['blog', 'article', 'cmariot', 'développement'],
         };
     } catch (error) {
-        console.error("Erreur lors du fetch article:", error);
         return {
             title: 'Article introuvable | cmariot - Blog',
             description: 'Cet article est introuvable ou a été supprimé.',
