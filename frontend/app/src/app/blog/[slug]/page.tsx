@@ -1,7 +1,5 @@
 import type { Metadata } from 'next'
 import ArticlePage from './ArticlePage';
-import api from '@/lib/api';
-import type { Article } from '@/types/Articles';
 
 type Props = {
     params: Promise<{ slug: string }>
@@ -11,8 +9,13 @@ type Props = {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
     const slug = (await params).slug;
     try {
-        const res = await api.get(`/blog/articles/${slug}/`);
-        const article: Article = res.data as Article;
+        const res = await fetch(`http://backend:8000/blog/articles/${slug}/`, {
+            headers: { Accept: 'application/json' }
+        });
+        if (!res.ok) {
+            throw new Error(`Erreur HTTP: ${res.status}`);
+        }
+        const article = await res.json();
         return {
             title: article.title ? `${article.title} | cmariot - Blog` : 'Article | cmariot - Blog',
             description: article.excerpt || 'Article du blog de cmariot.',
