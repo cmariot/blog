@@ -12,16 +12,7 @@ import slugify from 'slugify';
 import { remark } from 'remark';
 import remarkParse from 'remark-parse';
 import { visit } from 'unist-util-visit';
-
-interface Article {
-    title: string;
-    excerpt: string;
-    content: string;
-    tags: string[];
-    date: string;
-    readTime: string;
-    views: number;
-}
+import type { Article } from '@/types/Articles';
 
 export default function ArticlePage() {
     const { slug } = useParams();
@@ -146,7 +137,7 @@ export default function ArticlePage() {
                                 <CardHeader>
                                     <CardTitle className="text-lg">Table des matières</CardTitle>
                                 </CardHeader>
-                                <CardContent className="space-y-2">
+                                <CardContent className="space-y-2 max-h-[70vh] overflow-y-auto">
                                     {toc.map((item, index) => (
                                         <a
                                             key={index}

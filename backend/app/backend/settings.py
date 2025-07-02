@@ -29,7 +29,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY')
 DEBUG = ENV != 'production'
 
 ALLOWED_HOSTS = (
-    ['localhost'] if ENV != 'production'
+    ['localhost', 'backend'] if ENV != 'production'
     else ['charles-mariot.fr']
 )
 
