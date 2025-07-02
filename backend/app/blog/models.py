@@ -52,12 +52,6 @@ class Article(models.Model):
         help_text="Article mis en avant"
     )
 
-    duration = models.PositiveIntegerField(
-        null=True,
-        blank=True,
-        help_text="Durée de lecture en minutes"
-    )
-
     author = models.ForeignKey(
         'accounts.User',
         on_delete=models.CASCADE,
