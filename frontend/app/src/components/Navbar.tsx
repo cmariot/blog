@@ -13,8 +13,8 @@ const Header = () => {
     const [open, setOpen] = useState(false);
 
     const navItems = [
-        { href: '/', label: 'Home' },
-        { href: '/about', label: 'About' },
+        { href: '/', label: 'Accueil' },
+        { href: '/about', label: 'À propos' },
         { href: '/blog', label: 'Blog' },
         { href: '/projects', label: 'Projets' },
         { href: '/contact', label: 'Contact' },

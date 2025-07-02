@@ -12,6 +12,7 @@ import slugify from 'slugify';
 import { remark } from 'remark';
 import remarkParse from 'remark-parse';
 import { visit } from 'unist-util-visit';
+import type { Metadata } from 'next';
 
 interface Article {
     title: string;
@@ -21,6 +22,28 @@ interface Article {
     date: string;
     readTime: string;
     views: number;
+}
+
+export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
+    // Récupération des infos de l'article côté serveur pour le SEO
+    try {
+        const res = await api.get(`/blog/articles/${params.slug}/`);
+        const article = res.data as {
+            title?: string;
+            excerpt?: string;
+            tags?: string[];
+        };
+        return {
+            title: article.title ? `${article.title} | cmariot - Blog` : 'Article | cmariot - Blog',
+            description: article.excerpt || 'Article du blog de cmariot.',
+            keywords: article.tags || ['blog', 'article', 'cmariot', 'développement'],
+        };
+    } catch {
+        return {
+            title: 'Article introuvable | cmariot - Blog',
+            description: 'Cet article est introuvable ou a été supprimé.',
+        };
+    }
 }
 
 export default function ArticlePage() {
@@ -192,8 +215,6 @@ export default function ArticlePage() {
                         {/* Back button */}
                         <div className="mb-6 mt-4">
                             <Button variant="ghost" className="gap-2" onClick={() => router.push('/blog')}>
-                                {/* <ArrowLeft className="h-4 w-4" /> */}
-                                {/* Retour au blog */}
                                 <div className="flex items-center text-sm text-primary group-hover:gap-2 transition-all">
                                     <ArrowLeft className="h-4 w-4 mr-1 group-hover:translate-x-1 transition-transform" />
                                     <span>
@@ -213,7 +234,6 @@ export default function ArticlePage() {
         if (typeof children === 'string') return children;
         if (Array.isArray(children)) return children.map(childrenToString).join('');
         if (typeof children === 'object' && children !== null && 'props' in children) {
-            // children is a React element and may have props.children, safe to ignore for string conversion
             return childrenToString((children as { props: { children: React.ReactNode } }).props.children);
         }
         return '';
