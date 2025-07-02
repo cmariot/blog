@@ -6,22 +6,7 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Github, ExternalLink, Code, Zap, Brain, Wrench } from 'lucide-react';
 import api from '@/lib/api';
-import React from 'react';
-
-interface Project {
-    title: string;
-    description: string;
-    tags: string[];
-    date: string;
-    link?: string;
-    status?: string;
-    category?: string;
-    tech?: string[];
-    github?: string;
-    demo?: string;
-    image?: string;
-    featured?: boolean;
-}
+import { Project } from '@/types/Project';
 
 export default function ProjectsPage() {
 
@@ -242,7 +227,7 @@ export default function ProjectsPage() {
                             </CardHeader>
                             <CardContent>
                                 <div className="text-2xl font-bold text-green-500">
-                                    {projects.filter(p => p.status === 'completed').length}
+                                    {filteredProjects.filter(p => p.status === 'completed').length}
                                 </div>
                             </CardContent>
                         </Card>
@@ -253,7 +238,7 @@ export default function ProjectsPage() {
                             </CardHeader>
                             <CardContent>
                                 <div className="text-2xl font-bold text-blue-500">
-                                    {projects.filter(p => p.status === 'in-progress').length}
+                                    {filteredProjects.filter(p => p.status === 'in-progress').length}
                                 </div>
                             </CardContent>
                         </Card>
@@ -264,7 +249,7 @@ export default function ProjectsPage() {
                             </CardHeader>
                             <CardContent>
                                 <div className="text-2xl font-bold">
-                                    {[...new Set(projects.flatMap(p => p.tech || []))].length}
+                                    {[...new Set(filteredProjects.flatMap(p => p.tech || []))].length}
                                 </div>
                             </CardContent>
                         </Card>
@@ -275,7 +260,7 @@ export default function ProjectsPage() {
                             </CardHeader>
                             <CardContent>
                                 <div className="text-2xl font-bold">
-                                    {[...new Set(projects.map(p => p.category))].length}
+                                    {[...new Set(filteredProjects.map(p => p.category))].length}
                                 </div>
                             </CardContent>
                         </Card>
