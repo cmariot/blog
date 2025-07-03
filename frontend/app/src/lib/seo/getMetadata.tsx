@@ -34,6 +34,7 @@ export function getMetadata({
         authors: [
             { name: 'Charles Mariot', url: 'https://charles-mariot.fr' },
         ],
+        metadataBase: new URL('https://charles-mariot.fr'),
         creator: 'Charles Mariot',
         publisher: 'Charles Mariot',
         formatDetection: {
