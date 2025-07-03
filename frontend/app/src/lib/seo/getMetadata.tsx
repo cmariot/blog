@@ -12,7 +12,7 @@ export function getMetadata({
     title = 'Charles Mariot',
     description = 'Développeur IA, passionné par les agents et la tech utile.',
     url = 'https://charles-mariot.fr',
-    image = '/og-default.png',
+    image = '/cmariot.png',
     keywords = [
         'Charles Mariot',
         'Portfolio',
