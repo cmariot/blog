@@ -53,6 +53,11 @@ export default function ProjectsPage() {
         ? projects.filter(project => !project.featured)
         : projects.filter(project => project.category === selectedCategory);
 
+    // Inclure tous les projets (featured ou non) selon la catégorie sélectionnée
+    const allFilteredProjects = selectedCategory === "Tous"
+        ? projects
+        : projects.filter(project => project.category === selectedCategory);
+
     const getStatusText = (status: string) => {
         switch (status) {
             case 'completed':
@@ -105,7 +110,7 @@ export default function ProjectsPage() {
                         {/* Featured Projects */}
                         {selectedCategory === "Tous" && (
                             <section className="space-y-6">
-                                <h2 className="text-2xl font-bold">Projets phares</h2>
+                                <h2 className="text-2xl font-bold">Projets mis en avant</h2>
                                 <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
                                     {projects.filter(p => p.featured).map((project, index) => (
                                         <Card key={index} className="hover:shadow-lg transition-shadow group border-2 border-primary/20">
@@ -170,7 +175,7 @@ export default function ProjectsPage() {
                             </h2>
                             <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
                                 {filteredProjects.map((project, index) => (
-                                    <Card key={index} className={`hover:shadow-lg transition-shadow group ${project.featured && selectedCategory === "Tous" ? 'opacity-50' : ''}`}>
+                                    <Card key={index} className='hover:shadow-lg transition-shadow group'>
                                         <CardHeader>
                                             <div className="flex items-center justify-between mb-3">
                                                 <div className="text-3xl">{project.image}</div>
@@ -236,7 +241,7 @@ export default function ProjectsPage() {
                                 </CardHeader>
                                 <CardContent>
                                     <div className="text-2xl font-bold text-green-500">
-                                        {filteredProjects.filter(p => p.status === 'completed').length}
+                                        {allFilteredProjects.filter(p => p.status === 'completed').length}
                                     </div>
                                 </CardContent>
                             </Card>
@@ -246,7 +251,7 @@ export default function ProjectsPage() {
                                 </CardHeader>
                                 <CardContent>
                                     <div className="text-2xl font-bold text-blue-500">
-                                        {filteredProjects.filter(p => p.status === 'in_progress').length}
+                                        {allFilteredProjects.filter(p => p.status === 'in_progress').length}
                                     </div>
                                 </CardContent>
                             </Card>
@@ -256,7 +261,7 @@ export default function ProjectsPage() {
                                 </CardHeader>
                                 <CardContent>
                                     <div className="text-2xl font-bold">
-                                        {[...new Set(filteredProjects.flatMap(p => p.tech || []))].length}
+                                        {[...new Set(allFilteredProjects.flatMap(p => p.tech || []))].length}
                                     </div>
                                 </CardContent>
                             </Card>
@@ -266,7 +271,9 @@ export default function ProjectsPage() {
                                 </CardHeader>
                                 <CardContent>
                                     <div className="text-2xl font-bold">
-                                        {[...new Set(filteredProjects.map(p => p.category))].length}
+                                        {selectedCategory === "Tous"
+                                            ? [...new Set(allFilteredProjects.map(p => p.category))].length
+                                            : `Dans la catégorie ${selectedCategory}`}
                                     </div>
                                 </CardContent>
                             </Card>
