@@ -73,7 +73,7 @@ export default function ProjectsPage() {
             <div className="text-center space-y-4">
                 <h1 className="text-4xl font-bold tracking-tighter">Projets</h1>
                 <p className="text-xl text-muted-foreground">
-                    Voici une sélection de mes projets personnels et professionnels, entre IA, Web et bas niveau.<br />Chaque projet est l'occasion d'explorer une techno, un pattern, ou une idée que je veux tester.
+                    Voici une sélection de mes projets personnels et professionnels, entre IA, Web et bas niveau.<br />Chaque projet est l&apos;occasion d&apos;explorer une techno, un pattern, ou une idée que je veux tester.
                 </p>
             </div >
 
@@ -275,7 +275,7 @@ export default function ProjectsPage() {
                         {/* CTA */}
                         <div className="text-center space-y-4">
                             <p className="text-xl text-muted-foreground">
-                                N'hésitez pas à explorer le code, ou à me contacter pour discuter d&apos;un projet
+                                N&apos;hésitez pas à explorer le code, ou à me contacter pour discuter d&apos;un projet
                             </p>
                             <Button asChild className="gap-2">
                                 <Link href="/contact">
