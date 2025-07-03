@@ -1,3 +1,4 @@
+import { getMetadata } from '@/lib/seo/getMetadata';
 import type { Metadata } from 'next'
 import ArticlePage from './ArticlePage';
 
@@ -16,16 +17,16 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
             throw new Error(`Erreur HTTP: ${res.status}`);
         }
         const article = await res.json();
-        return {
+        return getMetadata({
             title: article.title ? `${article.title} | cmariot - Blog` : 'Article | cmariot - Blog',
             description: article.excerpt || 'Article du blog de cmariot.',
             keywords: article.tags || ['blog', 'article', 'cmariot', 'développement'],
-        };
+        });
     } catch {
-        return {
+        return getMetadata({
             title: 'Article introuvable | cmariot - Blog',
             description: 'Cet article est introuvable ou a été supprimé.',
-        };
+        });
     }
 }
 
