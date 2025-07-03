@@ -13,40 +13,41 @@ export default function AboutPage() {
         {
             year: "2025",
             title: "Transition vers l'excellence technique",
-            description: "Décision de me reconvertir complètement vers le développement de haut niveau. Focus sur l'architecture, les patterns avancés et les contributions open source.",
+            description: "Recentrage sur l'architecture logicielle, les design patterns, l'optimisation des performances et les bonnes pratiques du développement moderne. Lancement d'un site personnel pour documenter mes apprentissages, partager mes projets et affirmer mon identité technique.",
             type: "transition"
         },
         {
             year: "2024",
-            title: "Specialisation en IA et data",
-            description: "Mise en place de modeles et entrainements",
-            type: "specialisation"
+            title: "Spécialisation IA & MLOps",
+            description: "Approfondissement des fondations de l'intelligence artificielle : régression linéaire et logistique, réseaux de neurones, classification d'images, apprentissage par renforcement et imitation learning. Premiers pipelines d'entraînement et d'évaluation sur données réelles.",
+            type: "milestone"
         },
         {
             year: "2023",
-            title: "Common core 42 valide",
-            description: "Développement d'applications web pour des clients locaux. Découverte de React, Node.js et des bases de données modernes.",
+            title: "Développement web & mise en production",
+            description: "Déploiement des premières applications web fullstack avec React, Node.js et PostgreSQL. Introduction aux API REST, à la conteneurisation et aux workflows CI/CD.",
             type: "work"
         },
         {
             year: "2022",
-            title: "Les bases de la programmation en C et C++",
-            description: "Je pars des bases, recoder une mini librairie de fonctions, jusqu'a developper un serveur web, en passant par un moteur de ray-tracing et un shell",
+            title: "Programmation système & algorithmique bas niveau",
+            description: "Maîtrise des fondamentaux du C et C++ : implémentation d'une bibliothèque standard, moteur de ray tracing, shell Unix, serveur HTTP.",
             type: "education"
         },
         {
             year: "2021",
-            title: "Première ligne de code",
-            description: "Découverte de la programmation a la piscine de l'ecole 42.",
+            title: "Entrée à 42 Paris",
+            description: "Plongée intensive dans la programmation système, la résolution de problèmes complexes et les projets en pair programming.",
             type: "milestone"
         }
     ];
 
     const currentStack = {
-        languages: ["Python", "JavaScript/TypeScript", "SQL", "C/C++", "Bash"],
+        languages: ["Python", "JavaScript", "TypeScript", "SQL", "C", "C++", "Bash"],
         frontend: ["React", "Next.js", "Tailwind CSS", "HTML", "CSS"],
         backend: ["Django", "FastAPI", "PostgreSQL", "Redis"],
-        AI: ["PyTorch", "Numpy", "Pandas", "Matplotlib"]
+        AI: ["PyTorch", "Numpy", "Pandas", "Matplotlib"],
+        DevOps: ["Docker", "GitHub Actions", "Nginx", "Ansible"]
     };
 
     const values = [
@@ -192,28 +193,29 @@ export default function AboutPage() {
                 </div>
             </section>
 
-            {/* Contact Info */}
+            {/* Contact */}
             <section className="text-center space-y-4 py-8">
-                <h2 className="text-2xl font-bold">Restons en contact</h2>
+                <h2 className="text-2xl font-bold">Contact</h2>
                 <p className="text-muted-foreground">
-                    Toujours ouvert aux discussions techniques, collaborations ou simplement échanger sur nos expériences.
+                    Ouvert aux collaborations techniques, projets IA, dev backend ou outils internes.
+                    Disponible pour échange, mission ou opportunité long terme.
                 </p>
                 <div className="flex items-center justify-center gap-4 text-sm text-muted-foreground">
                     <div className="flex items-center gap-1">
                         <MapPin className="h-4 w-4" />
-                        France
+                        Paris
                     </div>
                     <Separator orientation="vertical" className="h-4" />
                     <div className="flex items-center gap-1">
                         <Calendar className="h-4 w-4" />
-                        Disponible pour des projets
+                        Disponible
                     </div>
+                </div>
                     <Button asChild className="gap-2">
                         <Link href="/contact">
                             Contact
                         </Link>
                     </Button>
-                </div>
             </section>
         </div>
     );
