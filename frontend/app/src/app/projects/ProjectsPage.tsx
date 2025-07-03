@@ -234,7 +234,7 @@ export default function ProjectsPage() {
                         </section>
 
                         {/* Stats */}
-                        <section className="grid gap-4 md:grid-cols-4 pt-8">
+                        < section className={`grid gap-4 ${selectedCategory === "Tous" ? ('md:grid-cols-4') : ('md:grid-cols-3')} pt-8`}>
                             <Card>
                                 <CardHeader className="pb-2">
                                     <CardTitle className="text-sm font-medium">Projets terminés</CardTitle>
@@ -265,18 +265,20 @@ export default function ProjectsPage() {
                                     </div>
                                 </CardContent>
                             </Card>
-                            <Card>
-                                <CardHeader className="pb-2">
-                                    <CardTitle className="text-sm font-medium">Catégories</CardTitle>
-                                </CardHeader>
-                                <CardContent>
-                                    <div className="text-2xl font-bold">
-                                        {selectedCategory === "Tous"
-                                            ? [...new Set(allFilteredProjects.map(p => p.category))].length
-                                            : `Dans la catégorie ${selectedCategory}`}
-                                    </div>
-                                </CardContent>
-                            </Card>
+                            {selectedCategory === "Tous" && (
+                                <Card>
+                                    <>
+                                        <CardHeader className="pb-2">
+                                            <CardTitle className="text-sm font-medium">Catégories</CardTitle>
+                                        </CardHeader>
+                                        <CardContent>
+                                            <div className="text-2xl font-bold">
+                                                {[...new Set(allFilteredProjects.map(p => p.category))].length}
+                                            </div>
+                                        </CardContent>
+                                    </>
+                                </Card>
+                            )}
                         </section>
 
                         {/* CTA */}
