@@ -43,11 +43,12 @@ export default function AboutPage() {
     ];
 
     const currentStack = {
-        languages: ["Python", "JavaScript", "TypeScript", "SQL", "C", "C++", "Bash"],
-        frontend: ["React", "Next.js", "Tailwind CSS", "HTML", "CSS"],
-        backend: ["Django", "FastAPI", "PostgreSQL", "Redis"],
-        AI: ["PyTorch", "Numpy", "Pandas", "Matplotlib"],
-        DevOps: ["Docker", "GitHub Actions", "Nginx", "Ansible"]
+        'OS & bas niveau': ["Linux", "C", "shell scripting"],
+        'Frontend': ["React", "Next.js", "Tailwind CSS", "HTML", "CSS"],
+        'Backend': ["Django", "FastAPI", "PostgreSQL", "Redis"],
+        'DevOps': ["Docker", "GitHub Actions", "Nginx", "Ansible"],
+        'IA': ["PyTorch", "Numpy", "Pandas", "Matplotlib"],
+        'Agents': ["Ollama", "RAG", "Tools"],
     };
 
     const values = [
@@ -211,11 +212,11 @@ export default function AboutPage() {
                         Disponible
                     </div>
                 </div>
-                    <Button asChild className="gap-2">
-                        <Link href="/contact">
-                            Contact
-                        </Link>
-                    </Button>
+                <Button asChild className="gap-2">
+                    <Link href="/contact">
+                        Contact
+                    </Link>
+                </Button>
             </section>
         </div>
     );
