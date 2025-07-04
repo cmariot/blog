@@ -221,9 +221,10 @@ body {
         padding-left: 2rem;
     }
 
-    .prose li {
+    li {
         margin-top: 0.25rem;
         margin-bottom: 0.25rem;
+        list-style-type: circle;
     }
 
     .prose strong {
