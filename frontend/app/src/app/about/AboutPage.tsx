@@ -43,9 +43,9 @@ export default function AboutPage() {
     ];
 
     const currentStack = {
-        'OS & bas niveau': ["Linux", "C", "shell scripting"],
-        'Frontend': ["React", "Next.js", "Tailwind CSS", "HTML", "CSS"],
-        'Backend': ["Django", "FastAPI", "PostgreSQL", "Redis"],
+        'OS & bas niveau': ["Linux", "C / C++", "Shell scripting"],
+        'Frontend': ["Next.js", "React", "TypeScript", "Tailwind CSS", "HTML", "CSS"],
+        'Backend': ["Django", "FastAPI", "Python", "PostgreSQL", "Redis"],
         'DevOps': ["Docker", "GitHub Actions", "Nginx", "Ansible"],
         'IA': ["PyTorch", "Numpy", "Pandas", "Matplotlib"],
         'Agents': ["Ollama", "RAG", "Tools"],
