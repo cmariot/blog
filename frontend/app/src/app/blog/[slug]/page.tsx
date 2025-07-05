@@ -1,10 +1,11 @@
 import { notFound } from "next/navigation";
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { Calendar, Clock, Eye, Share } from 'lucide-react';
+import { Calendar, Clock, Eye } from 'lucide-react';
 import ArticleContent from './ArticleContent';
 import { getMetadata } from '@/lib/seo/getMetadata';
 import type { Metadata } from 'next'
+import ShareButton from './ShareButton';
 
 
 type Props = {
@@ -46,7 +47,6 @@ async function getArticle(slug: string) {
     const article = await res.json();
     return article;
 }
-
 
 export default async function Page({
     params,
@@ -98,10 +98,8 @@ export default async function Page({
                             <Eye className="h-4 w-4" />
                             {article.views} vues
                         </div>
-                        <Button variant="ghost" size="sm" className="gap-2">
-                            <Share className="h-4 w-4" />
-                            Partager
-                        </Button>
+                        {/* Remplace le bouton Partager par le composant ShareButton */}
+                        <ShareButton />
                     </div>
                 </header>
 

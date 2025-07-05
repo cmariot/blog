@@ -3,6 +3,7 @@ import "./globals.css";
 import { ThemeProvider } from "@/components/Theme";
 import NavBar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import {Toaster} from "@/components/ui/sonner"
 
 
 export const metadata: Metadata = {
@@ -26,6 +27,7 @@ export default function RootLayout({
                 >
                     <NavBar />
                     <main className="flex-1 container mx-auto px-4 max-w-[1000px]">
+                        <Toaster />
                         {children}
                     </main>
                     <Footer />

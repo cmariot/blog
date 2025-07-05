@@ -6,6 +6,8 @@ import TableOfContentComponent from './TableOfContentComponent';
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import slugify from 'slugify';
+import remarkGfm from 'remark-gfm'
+
 
 interface ArticleContentProps {
     article: {
@@ -45,6 +47,7 @@ export default async function ArticleContent({ article }: ArticleContentProps) {
         mdxOptions: {
             remarkPlugins: [
                 remarkFlexibleToc,
+                remarkGfm
             ],
         },
         parseFrontmatter: true,

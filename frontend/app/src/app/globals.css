@@ -221,10 +221,17 @@ body {
         padding-left: 2rem;
     }
 
+    .prose ul {
+        list-style-type: circle;
+    }
+
+    .prose ol {
+        list-style-type: decimal;
+    }
+
     li {
         margin-top: 0.25rem;
         margin-bottom: 0.25rem;
-        list-style-type: circle;
     }
 
     .prose strong {
@@ -238,5 +245,16 @@ body {
 
     .dark .prose {
         color: hsl(var(--foreground));
+    }
+
+    .prose table {
+        border: 1px solid var(--secondary) !important;
+    }
+
+    .prose th,
+    .prose td {
+        border: 1px solid var(--secondary) !important;
+        padding: 1rem !important;
+
     }
 }
