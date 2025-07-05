@@ -1,6 +1,5 @@
 import { notFound } from "next/navigation";
 import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
 import { Calendar, Clock, Eye } from 'lucide-react';
 import ArticleContent from './ArticleContent';
 import { getMetadata } from '@/lib/seo/getMetadata';

@@ -1,229 +1,148 @@
-# Créer la base d’une application web avec Next.js, Django, PostgreSQL et NGINX (2025)
+## 🧱 Tech Stack
 
-> Monorepo modulaire, dockerisé, prêt pour le développement local et facilement déployable.
+The project follows a **full-stack API-first architecture** with a clear separation between frontend and backend responsibilities.
 
----
-
-## ⚙️ Objectif
-
-Mettre en place une architecture web moderne, fullstack, avec séparation claire des responsabilités :
-
-- **Next.js** (frontend)
-- **Django** (backend REST/API)
-- **PostgreSQL** (base de données)
-- **NGINX** (reverse proxy)
-- **Docker Compose** (orchestration)
-- **Monorepo** (un seul repo pour tout centraliser)
+| Layer      | Stack                          | Why?                              |
+| ---------- | ------------------------------ | --------------------------------- |
+| Frontend   | Next.js + TypeScript           | SSR/SSG, interactivity, SEO       |
+| Styling    | Tailwind CSS + shadcn/ui       | Speed, consistency, composability |
+| Backend    | Django + Django REST Framework | Robust, batteries-included admin  |
+| Database   | PostgreSQL                     | Reliable, strong relational model |
+| Deployment | OVH VPS + Docker + NGINX       | Full infrastructure control       |
 
 ---
 
-## 📁 Structure du monorepo
+## 🌐 Website Features
 
-```
-.
-├── backend/                # Code Django + Dockerfile
-│   ├── app/                # Projet Django (manage.py, apps, etc.)
-│   ├── .env
-│   ├── Dockerfile
-│   ├── entrypoint.sh
-│   ├── requirements.txt
-│   └── wait-for-postgres.sh
-│
-├── frontend/               # App Next.js + Dockerfile
-│   ├── app/
-│   └── Dockerfile
-│
-├── database/               # Données persistées PostgreSQL
-│   ├── .env
-│   └── data/
-│
-├── nginx/                  # Config NGINX + Dockerfile
-│   ├── Dockerfile
-│   └── conf.d/
-│
-├── .env                    # Variables d’environnement globales
-├── docker-compose.yaml     # Déclaration des services
-├── Makefile
-└── README.md
-```
+### Homepage (`/`)
+
+A minimal homepage with a clear message, quick access buttons (About, Blog, Projects, Contact), a list of the latest blog posts, and a short intro about me.
+
+### About (`/about`)
+
+A detailed page with multiple sections:
+
+* My **personal story**
+* A **chronological timeline** (highlighting key events per year)
+* A grid of **technologies I use**
+* My **values and work principles**
+* A compact **contact** section
+
+### Blog (`/blog`)
+
+I use Django’s admin panel to write articles, which are served via a public API (`GET /api/blog/articles/`).
+This lets me publish new content without pushing to Git every time.
+
+### Projects (`/projects`)
+
+Projects are stored in the Django database and include:
+
+* Name, description, category, status
+* Tech stack (e.g. React, Django, etc.)
+* Links to GitHub and demo
+
+A REST API (`/api/projects/`) is used to fetch data dynamically on the frontend.
+
+### Contact (`/contact`)
+
+A simple contact form and links to my GitHub and email.
+Form submissions are handled by the backend, which formats the content and sends it to me directly.
 
 ---
 
-## 📝 Configuration des fichiers `.env`
+## 🧩 Django Backend
 
-Le backend et la base de données nécessitent un fichier `.env` pour fonctionner correctement. Voici comment les créer :
+The Django backend exposes a public **read-only REST API**, with write access restricted via admin and authentication.
 
-### 1. `.env` à la racine
+Example `Project` model:
 
-Ce fichier peut contenir des variables globales partagées entre les services.
-
-Exemple :
-```
-PROJECT_NAME=blog
-POSTGRES_HOST=database
-POSTGRES_PORT=5432
-POSTGRES_USER=your_user
-POSTGRES_PASSWORD=your_password
-POSTGRES_DB=your_db_name
-```
-
-### 2. `backend/.env`
-
-Contient la configuration Django et la connexion à la base de données.
-
-Exemple :
-```
-POSTGRES_HOST=database
-POSTGRES_PORT=5432
-POSTGRES_USER=your_user
-POSTGRES_PASSWORD=your_password
-POSTGRES_DB=your_db_name
-SECRET_KEY=change_me
+```python
+class Project(models.Model):
+    title = models.CharField()
+    slug = models.SlugField()
+    image = models.CharField()
+    description = models.TextField()
+    status = models.CharField()
+    category = models.CharField()
+    tech = models.JSONField()
+    github = models.URLField()
+    demo = models.URLField()
+    featured = models.BooleanField()
 ```
 
-### 3. `database/.env`
+Each model has its own `Serializer` and `ViewSet`, exposed via Django REST Framework (DRF).
 
-Contient la configuration de la base PostgreSQL.
-
-Exemple :
-```
-POSTGRES_HOST=database
-POSTGRES_PORT=5432
-POSTGRES_PASSWORD=your_password
-POSTGRES_DB=your_db_name
-SECRET_KEY=change_me
-```
-
-**Astuce :**
-Ne versionne jamais tes fichiers `.env` contenant des secrets. Utilise le fichier `.gitignore` pour les exclure du dépôt.
+🔐 A token-based authentication system is planned for enabling secure edits from the Next.js interface.
 
 ---
 
-## 🐳 Architecture Docker Compose
+## 🎨 Next.js Frontend
 
-Chaque service est isolé dans son propre container :
+The frontend uses **Next.js App Router**, mixing static and server components as needed.
 
-### 1. PostgreSQL
-- Image alpine légère
-- Volumes persistants (`database/data`)
-- Healthcheck actif
-- Accès **limité au backend uniquement**
+It integrates:
 
-### 2. Django (backend)
-- API accessible via `/api/`
-- Connecté uniquement à la base de données
-- Sert les fichiers statiques pour l’admin (`collectstatic`)
-- **Pas exposé directement** : accessible uniquement via NGINX
+* `Tailwind CSS` for utility-first styling
+* `shadcn/ui` for clean, ready-to-use components (modals, cards, buttons, etc.)
 
-### 3. Next.js (frontend)
-- Sert le client React
-- Accès via le port 80 de NGINX
-- Fait ses appels API via `/api/` → proxy_pass vers Django
+Example data fetching (in `/projects/page.tsx`):
 
-### 4. NGINX (reverse proxy)
-- Route les requêtes :
-  - `/api/` → Django
-  - `/static/` → fichiers statiques Django
-  - `/` → Next.js
-- Point d’entrée unique exposé sur `localhost:8080`
-
----
-
-## 🔐 Sécurité (niveau réseau)
-
-- **Base de données** : non exposée, seulement le backend y accède
-- **Backend** : non exposé, uniquement disponible via NGINX
-- **Frontend** : exposé via le reverse proxy
-- **NGINX** : point d’entrée unique, à sécuriser (SSL, headers, etc.)
-
----
-
-## 📦 Collecte des fichiers statiques Django
-
-1. Définir `STATIC_URL` et `STATIC_ROOT` dans `backend/app/backend/settings.py`
-2. Exécuter : `python manage.py collectstatic` dans `backend/app/`
-3. Partager `/staticfiles` entre Django et NGINX via un volume Docker
-4. NGINX gère `/static/` avec un `alias`
-
----
-
-## 🔗 Accès à Django admin
-
-- Le backend est accessible via `/api/`
-- L’admin Django est monté sur `/api/admin/`
-- Si le CSS/admin ne s'affiche pas → problème de static non servi → corrigé via `location /static/` dans NGINX
-
----
-
-## 🔧 Exemple de config NGINX
-
-```nginx
-upstream frontend {
-    server frontend:3000;
-}
-
-upstream backend {
-    server backend:8000;
-}
-
-server {
-    listen 80;
-    server_name localhost;
-
-    location /api/ {
-        proxy_http_version 1.1;
-        proxy_set_header Host $host;
-        proxy_set_header Upgrade $http_upgrade;
-        proxy_set_header Connection "upgrade";
-        proxy_pass http://backend/;
-
-        add_header Access-Control-Allow-Origin *;
-        add_header Access-Control-Allow-Methods "GET, POST, PUT, DELETE, OPTIONS";
-        add_header Access-Control-Allow-Headers "Authorization, Content-Type";
-    }
-
-    location / {
-        proxy_http_version 1.1;
-        proxy_set_header Host $host;
-        proxy_set_header Upgrade $http_upgrade;
-        proxy_set_header Connection "upgrade";
-        proxy_pass http://frontend$request_uri;
-    }
-
-    location /static/ {
-        alias /staticfiles/;
-    }
-}
+```ts
+useEffect(() => {
+    setLoading(true);
+    api.get("/projects/")
+        .then(res => {
+            setProjects(Array.isArray(res.data) ? res.data : []);
+            setLoading(false);
+        })
+        .catch(() => {
+            setProjects([]);
+            setLoading(false);
+        });
+}, []);
 ```
 
----
-
-## 🔁 Volumes
-
-- `backend/staticfiles` partagé avec NGINX
-- `database/data` pour PostgreSQL
-- `frontend/node_modules` pour éviter des conflits entre hôtes
+The components are designed to be **modular and extensible**, making it easy to add new sections (e.g. certifications, books, courses…).
 
 ---
 
-## ✅ Avantages de cette architecture
+## 🚀 Infrastructure & Deployment
 
-- Isolation claire des services
-- Dev & prod unifiés via Docker
-- Sécurité interservices
-- Réseau Docker + NGINX
-- Facilité de scaling / déploiement
-- Backend et frontend indépendants
-- Stack moderne : Python côté serveur, React côté client
-- Monorepo pour centraliser
-- Pas de microservices prématurés
+The app runs on an **OVH Ubuntu VPS** using `docker-compose`.
+
+Architecture overview:
+
+```yaml
+services:
+  frontend:
+    build: ./frontend
+  backend:
+    build: ./backend
+  nginx:
+    build: ./nginx
+    ports: ["80:80", "443:443"]
+```
+
+### 🔒 Security
+
+* HTTPS via Let’s Encrypt (`certbot`)
+* Basic firewall (UFW)
+* Django admin protected by authentication
 
 ---
 
-## 🚀 Étapes suivantes possibles
+## 🛠️ Django Admin as CMS
 
-- Ajouter un système d’authentification JWT
-- Protéger l’accès API avec des tokens d’accès et de rafraîchissement
-- Configurer HTTPS via certbot ou Traefik
-- Déployer sur un VPS
-- Ajouter un pipeline CI/CD (GitHub Actions, etc.)
+One of Django’s strengths is its built-in admin interface.
+I've customized it to manage both blog posts and projects.
+
+It lets me use the platform as a **personal CMS**, while keeping full control over the source code.
+
+---
+
+## 🔮 Future Improvements
+
+* Better blog post formatting
+* Comment support for articles
+* Full English version of the site
+* JWT-based authentication for in-app editing via the frontend
