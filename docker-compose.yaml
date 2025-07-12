@@ -77,6 +77,7 @@ services:
       - ./backend/app/static:/staticfiles
       - ./nginx/certbot/www:/var/www/certbot
       - ./nginx/certs:/etc/nginx/certs
+      - ./nginx/logs:/var/log/nginx
     networks:
       custom_network:
         aliases:
