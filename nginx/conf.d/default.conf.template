@@ -31,6 +31,16 @@ server {
     ssl_certificate     ${SSL_CERT};
     ssl_certificate_key ${SSL_KEY};
 
+    add_header          X-Content-Type-Options "nosniff" always;
+    add_header          X-Frame-Options "DENY" always;
+    add_header          X-XSS-Protection "1; mode=block" always;
+    add_header          Referrer-Policy "strict-origin-when-cross-origin" always;
+    add_header          Permissions-Policy "geolocation=(), microphone=(), camera=()" always;
+    add_header          Strict-Transport-Security "max-age=31536000; includeSubDomains" always;
+
+    gzip                on;
+    gzip_types          text/plain text/css application/json application/javascript text/xml application/xml application/xml+rss text/javascript;
+
     # Backend API
     location /api/ {
         proxy_http_version    1.1;
@@ -38,6 +48,12 @@ server {
         proxy_set_header      Upgrade $http_upgrade;
         proxy_set_header      Connection "upgrade";
         proxy_pass            http://backend/;
+        proxy_connect_timeout 10s;
+        proxy_send_timeout    30s;
+        proxy_read_timeout    30s;
+        send_timeout          30s;
+        proxy_set_header      X-Real-IP $remote_addr;
+        proxy_set_header      X-Forwarded-For $proxy_add_x_forwarded_for;
     }
 
     # Backend admin
@@ -47,13 +63,19 @@ server {
         proxy_set_header      Upgrade $http_upgrade;
         proxy_set_header      Connection "upgrade";
         proxy_pass            http://backend$request_uri;
+        proxy_connect_timeout 10s;
+        proxy_send_timeout    30s;
+        proxy_read_timeout    30s;
+        send_timeout          30s;
+        proxy_set_header      X-Real-IP $remote_addr;
+        proxy_set_header      X-Forwarded-For $proxy_add_x_forwarded_for;
     }
 
     # Backend static files
     location /static/ {
         alias /staticfiles/;
         access_log off;
-        expires 1y;
+        expires 30d;
         add_header Cache-Control "public";
     }
 
@@ -65,6 +87,31 @@ server {
         proxy_set_header 	Upgrade $http_upgrade;
         proxy_set_header 	Connection "upgrade";
         proxy_pass http://frontend$request_uri;
+        proxy_connect_timeout 10s;
+        proxy_send_timeout    30s;
+        proxy_read_timeout    30s;
+        send_timeout          30s;
+        proxy_set_header      X-Real-IP $remote_addr;
+        proxy_set_header      X-Forwarded-For $proxy_add_x_forwarded_for;
+    }
+
+    # Cache
+    location ~* \.(jpg|jpeg|png|gif|ico|css|js|woff|woff2|ttf|svg)$ {
+        access_log off;
+        expires 30d;
+        add_header Cache-Control "public";
+    }
+
+    # Bots
+    location ~* (\.git|wp-admin|\.env|\.htaccess) {
+        deny all;
+        return 403;
+    }
+
+    # 404 favicon
+    location = /favicon.ico {
+        access_log off;
+        log_not_found off;
     }
 
 }
