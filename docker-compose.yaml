@@ -68,6 +68,7 @@ services:
       - frontend
     environment:
       - ENV=${ENV}
+      - SECRET_ADMIN_URL=${SECRET_ADMIN_URL}
     ports:
       - "80:80"
       - "443:443"

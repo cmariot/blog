@@ -96,7 +96,7 @@ export default function HomePage() {
                                                 </Badge>
                                             ))}
                                         </div>
-                                        <div className="flex items-center text-sm text-primary group-hover:gap-2 transition-all mt-auto">
+                                        <div className="flex items-center text-sm text-primary group-hover:gap-2 transition-all mt-auto font-bold">
                                             Lire la suite
                                             <ArrowRight className="h-3 w-3 ml-1 group-hover:translate-x-1 transition-transform" />
                                         </div>
@@ -126,7 +126,7 @@ export default function HomePage() {
                         </Link>
                     </Button>
                     <Button asChild className="gap-2">
-                        <Link href="/contact">
+                        <Link href="/contact" className='font-bold'>
                             Contact
                         </Link>
                     </Button>
