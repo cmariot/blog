@@ -12,7 +12,7 @@ restart:
 	docker compose up -d
 
 logs:
-	docker compose logs -f
+	docker compose logs --follow
 
 ps:
 	docker compose ps

@@ -13,5 +13,6 @@
 
 /nginx/conf.d/default.conf
 /nginx/certbot/www
+/nginx/logs/
 
 /certbot-cron.log
